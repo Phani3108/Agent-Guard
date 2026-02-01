@@ -1,0 +1,2 @@
+id,customer_id,card_id,mcc,merchant,amount,currency,timestamp,device_id,geo_lat,geo_lon,geo_country
+txn_pending_001,cust_8f7e602c,card_1cb11bca,5541,Test ATM Withdrawal,15000,INR,2025-01-18T12:00:00Z,device_001,28.6139,77.2090,IN

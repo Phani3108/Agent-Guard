@@ -1,0 +1,76 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">Customer Details</h1>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="customer">
+    <!-- Customer Info -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Customer Information</h5>
+        </div>
+        <div class="card-body">
+          <h6 class="fw-bold">{{ customer.name }}</h6>
+          <p class="text-muted">{{ customer.id }}</p>
+          <p><strong>Email:</strong> {{ customer.email }}</p>
+          <p><strong>Phone:</strong> {{ customer.phone }}</p>
+          <p><strong>Status:</strong> 
+            <span class="badge" [class]="'bg-' + (customer.status === 'active' ? 'success' : 'danger')">
+              {{ customer.status | titlecase }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transaction History -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Transaction History</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th>Date</th>
+                  <th>Merchant</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of transactions">
+                  <td>{{ transaction.timestamp | date:'short' }}</td>
+                  <td>{{ transaction.merchant }}</td>
+                  <td class="fw-bold" [class]="transaction.amount > 0 ? 'text-danger' : 'text-success'">
+                    ₹{{ transaction.amount | number }}
+                  </td>
+                  <td>
+                    <span class="badge" [class]="'bg-' + (transaction.status === 'completed' ? 'success' : 'warning')">
+                      {{ transaction.status | titlecase }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="row" *ngIf="!customer">
+    <div class="col-12 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading customer data...</p>
+    </div>
+  </div>
+</div>

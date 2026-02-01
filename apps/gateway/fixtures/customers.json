@@ -1,0 +1,122 @@
+[
+  {
+    "id": "cust_001",
+    "name": "Rajesh Kumar",
+    "email_masked": "r***@g***.com",
+    "risk_flags": ["high_velocity", "new_device"]
+  },
+  {
+    "id": "cust_002", 
+    "name": "Priya Sharma",
+    "email_masked": "p***@y***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_003",
+    "name": "Amit Patel",
+    "email_masked": "a***@h***.com", 
+    "risk_flags": ["chargeback_history"]
+  },
+  {
+    "id": "cust_004",
+    "name": "Sneha Reddy",
+    "email_masked": "s***@o***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_005",
+    "name": "Vikram Singh",
+    "email_masked": "v***@r***.com",
+    "risk_flags": ["geo_anomaly"]
+  },
+  {
+    "id": "cust_006",
+    "name": "Anita Desai",
+    "email_masked": "a***@i***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_007",
+    "name": "Rohit Gupta",
+    "email_masked": "r***@f***.com",
+    "risk_flags": ["mcc_anomaly"]
+  },
+  {
+    "id": "cust_008",
+    "name": "Kavita Joshi",
+    "email_masked": "k***@m***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_009",
+    "name": "Deepak Mehta",
+    "email_masked": "d***@w***.com",
+    "risk_flags": ["device_change"]
+  },
+  {
+    "id": "cust_010",
+    "name": "Sunita Agarwal",
+    "email_masked": "s***@a***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_011",
+    "name": "Manoj Tiwari",
+    "email_masked": "m***@b***.com",
+    "risk_flags": ["high_amount"]
+  },
+  {
+    "id": "cust_012",
+    "name": "Rekha Nair",
+    "email_masked": "r***@c***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_013",
+    "name": "Suresh Iyer",
+    "email_masked": "s***@d***.com",
+    "risk_flags": ["time_anomaly"]
+  },
+  {
+    "id": "cust_014",
+    "name": "Lakshmi Menon",
+    "email_masked": "l***@e***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_015",
+    "name": "Arjun Rao",
+    "email_masked": "a***@j***.com",
+    "risk_flags": ["duplicate_transaction"]
+  },
+  {
+    "id": "cust_016",
+    "name": "Meera Krishnan",
+    "email_masked": "m***@k***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_017",
+    "name": "Kiran Verma",
+    "email_masked": "k***@l***.com",
+    "risk_flags": ["card_lost"]
+  },
+  {
+    "id": "cust_018",
+    "name": "Pooja Shah",
+    "email_masked": "p***@n***.com",
+    "risk_flags": []
+  },
+  {
+    "id": "cust_019",
+    "name": "Nikhil Agarwal",
+    "email_masked": "n***@p***.com",
+    "risk_flags": ["suspicious_merchant"]
+  },
+  {
+    "id": "cust_020",
+    "name": "Divya Ranganathan",
+    "email_masked": "d***@q***.com",
+    "risk_flags": []
+  }
+]

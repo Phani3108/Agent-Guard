@@ -1,0 +1,22 @@
+{
+  "name": "Aggressive Promo",
+  "flow": {
+    "nodes": [
+      { "id": "start", "type": "start" },
+      { "id": "msg1", "type": "message", "channel": "sms", "templates": { "en": { "text": "Buy now {{user.creditCard}}!" } } },
+      { "id": "msg2", "type": "message", "channel": "sms", "templates": { "en": { "text": "Hurry!" } } },
+      { "id": "msg3", "type": "message", "channel": "sms", "templates": { "en": { "text": "Last chance!" } } },
+      { "id": "orphan", "type": "message", "channel": "email", "templates": { "en": { "text": "I am unreachable" } } }
+    ],
+    "edges": [
+      { "from": "start", "to": "msg1" },
+      { "from": "msg1", "to": "msg2" },
+      { "from": "msg2", "to": "msg3" }
+    ],
+    "starts": [{ "nodeId": "start" }],
+    "ends": []
+  },
+  "localization": { "requiredLocales": ["en", "fr"] },
+  "personalization": { "allowedVars": ["user.firstName"] }
+}
+

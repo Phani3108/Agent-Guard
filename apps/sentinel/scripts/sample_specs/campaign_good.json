@@ -1,0 +1,20 @@
+{
+  "name": "Welcome Flow",
+  "flow": {
+    "nodes": [
+      { "id": "start", "type": "start" },
+      { "id": "msg1", "type": "message", "channel": "email", "templates": { "en": { "text": "Hi {{user.firstName}}!" } } },
+      { "id": "end", "type": "end" }
+    ],
+    "edges": [
+      { "from": "start", "to": "msg1" },
+      { "from": "msg1", "to": "end" }
+    ],
+    "starts": [{ "nodeId": "start" }],
+    "ends": [{ "nodeId": "end" }]
+  },
+  "compliance": { "optIn": ["email"] },
+  "localization": { "requiredLocales": ["en"] },
+  "personalization": { "allowedVars": ["user.firstName"] }
+}
+

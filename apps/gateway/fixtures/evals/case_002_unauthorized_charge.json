@@ -1,0 +1,25 @@
+{
+  "id": "case_002",
+  "name": "Unauthorized Charge - Open Dispute",
+  "description": "Customer reports unauthorized charge, system should open dispute with reason 10.4",
+  "input": {
+    "customerId": "cust_87d94430",
+    "suspectTxnId": "txn_68dcf56d",
+    "userMessage": "I don't recognize this charge of ₹100,000 at Final Test Store yesterday"
+  },
+  "expected": {
+    "action": "OPEN_DISPUTE",
+    "reasonCode": "10.4",
+    "status": "OPEN",
+    "riskScore": "high",
+    "reasons": ["unauthorized_transaction", "customer_dispute"]
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions",
+    "riskSignals", 
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ]
+}

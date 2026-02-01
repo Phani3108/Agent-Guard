@@ -1,0 +1,78 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: agentguard
+      POSTGRES_PASSWORD: agentguard
+      POSTGRES_DB: agentguard
+    ports:
+      - "5432:5432"
+    volumes:
+      - agentguard_pg:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - agentguard_redis:/data
+
+  gateway:
+    build:
+      context: .
+      dockerfile: apps/gateway/Dockerfile
+    environment:
+      PORT: "7100"
+      DATABASE_URL: "postgresql://agentguard:agentguard@postgres:5432/agentguard"
+      REDIS_URL: "redis://redis:6379"
+      TENANT_KEYS: "demo:demo_key"
+      LLM_PROVIDER: "openai"
+      LLM_API_KEY: "${LLM_API_KEY}"
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "7100:7100"
+
+  sentinel:
+    build:
+      context: .
+      dockerfile: apps/sentinel/Dockerfile
+    environment:
+      PORT: "7200"
+      DATABASE_URL: "postgresql://agentguard:agentguard@postgres:5432/agentguard"
+      REDIS_URL: "redis://redis:6379"
+      GATEWAY_URL: "http://gateway:7100"
+      LLM_PROVIDER: "openai"
+      LLM_API_KEY: "${LLM_API_KEY}"
+    depends_on:
+      - postgres
+      - redis
+      - gateway
+    ports:
+      - "7200:7200"
+
+  pulse:
+    build:
+      context: .
+      dockerfile: apps/pulse/Dockerfile
+    environment:
+      PORT: "7300"
+      DATABASE_URL: "postgresql://agentguard:agentguard@postgres:5432/agentguard"
+      REDIS_URL: "redis://redis:6379"
+      GATEWAY_URL: "http://gateway:7100"
+      SLACK_WEBHOOK_URL: "${SLACK_WEBHOOK_URL}"
+      LLM_PROVIDER: "openai"
+      LLM_API_KEY: "${LLM_API_KEY}"
+    depends_on:
+      - postgres
+      - redis
+      - gateway
+    ports:
+      - "7300:7300"
+
+volumes:
+  agentguard_pg:
+  agentguard_redis:

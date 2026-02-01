@@ -1,0 +1,90 @@
+[
+  {
+    "id": "kb_001",
+    "title": "How Disputes Work",
+    "anchor": "kb_disputes",
+    "content": "Disputes are customer-initiated claims against unauthorized or incorrect charges. Common reason codes include 10.4 (Unauthorized transaction), 10.5 (Duplicate processing), and 10.6 (Credit not processed). The dispute process involves investigation, merchant response, and final resolution within 45-60 days.",
+    "chunks": [
+      "Disputes are customer-initiated claims against unauthorized or incorrect charges",
+      "Common reason codes include 10.4 (Unauthorized transaction), 10.5 (Duplicate processing), and 10.6 (Credit not processed)",
+      "The dispute process involves investigation, merchant response, and final resolution within 45-60 days"
+    ]
+  },
+  {
+    "id": "kb_002",
+    "title": "Card Freeze Process",
+    "anchor": "kb_freeze",
+    "content": "Card freezing is a security measure to prevent unauthorized transactions. Cards can be frozen temporarily or permanently. OTP verification is required for freeze actions to ensure customer consent. Frozen cards cannot be used for new transactions but existing recurring payments may continue.",
+    "chunks": [
+      "Card freezing is a security measure to prevent unauthorized transactions",
+      "OTP verification is required for freeze actions to ensure customer consent",
+      "Frozen cards cannot be used for new transactions but existing recurring payments may continue"
+    ]
+  },
+  {
+    "id": "kb_003",
+    "title": "Travel Notice Setup",
+    "anchor": "kb_travel",
+    "content": "Customers should set travel notices before international travel to avoid transaction blocks. Travel notices can be set for specific countries and date ranges. This helps prevent false positives for geo-velocity checks and ensures smooth card usage abroad.",
+    "chunks": [
+      "Customers should set travel notices before international travel to avoid transaction blocks",
+      "Travel notices can be set for specific countries and date ranges",
+      "This helps prevent false positives for geo-velocity checks and ensures smooth card usage abroad"
+    ]
+  },
+  {
+    "id": "kb_004",
+    "title": "Fraud Detection Rules",
+    "anchor": "kb_fraud_rules",
+    "content": "Our fraud detection system uses multiple signals: transaction velocity, device changes, geographic anomalies, MCC patterns, and chargeback history. High-risk transactions trigger additional verification. Risk scores range from 0-100, with scores above 70 requiring manual review.",
+    "chunks": [
+      "Our fraud detection system uses multiple signals: transaction velocity, device changes, geographic anomalies, MCC patterns, and chargeback history",
+      "High-risk transactions trigger additional verification",
+      "Risk scores range from 0-100, with scores above 70 requiring manual review"
+    ]
+  },
+  {
+    "id": "kb_005",
+    "title": "MCC Categories",
+    "anchor": "kb_mcc",
+    "content": "Merchant Category Codes (MCC) classify businesses by type. Common categories include 5411 (Grocery stores), 5812 (Eating places), 6011 (ATM withdrawals), 5541 (Gas stations), and 5311 (Department stores). Unusual MCC patterns for a customer may indicate fraud.",
+    "chunks": [
+      "Merchant Category Codes (MCC) classify businesses by type",
+      "Common categories include 5411 (Grocery stores), 5812 (Eating places), 6011 (ATM withdrawals), 5541 (Gas stations), and 5311 (Department stores)",
+      "Unusual MCC patterns for a customer may indicate fraud"
+    ]
+  },
+  {
+    "id": "kb_006",
+    "title": "Device Trust Management",
+    "anchor": "kb_devices",
+    "content": "Device trust is established through successful authentication and transaction history. New devices start as untrusted and require additional verification. Trusted devices can perform transactions with reduced friction. Device changes combined with high-value transactions trigger risk alerts.",
+    "chunks": [
+      "Device trust is established through successful authentication and transaction history",
+      "New devices start as untrusted and require additional verification",
+      "Device changes combined with high-value transactions trigger risk alerts"
+    ]
+  },
+  {
+    "id": "kb_007",
+    "title": "OTP Verification Process",
+    "anchor": "kb_otp",
+    "content": "One-Time Passwords (OTP) are used for high-risk transactions and sensitive actions. OTPs are sent via SMS or email and expire in 5 minutes. Failed OTP attempts are limited to 3 tries before account lockout. OTP verification is mandatory for card freezing and dispute creation.",
+    "chunks": [
+      "One-Time Passwords (OTP) are used for high-risk transactions and sensitive actions",
+      "OTPs are sent via SMS or email and expire in 5 minutes",
+      "OTP verification is mandatory for card freezing and dispute creation"
+    ]
+  },
+  {
+    "id": "kb_008",
+    "title": "Chargeback Prevention",
+    "anchor": "kb_chargeback_prevention",
+    "content": "Chargebacks can be prevented through clear merchant descriptors, responsive customer service, and proper transaction documentation. Merchants should maintain detailed records and respond promptly to customer inquiries. Chargeback ratios above 1% may result in higher processing fees.",
+    "chunks": [
+      "Chargebacks can be prevented through clear merchant descriptors, responsive customer service, and proper transaction documentation",
+      "Merchants should maintain detailed records and respond promptly to customer inquiries",
+      "Chargeback ratios above 1% may result in higher processing fees"
+    ]
+  }
+]

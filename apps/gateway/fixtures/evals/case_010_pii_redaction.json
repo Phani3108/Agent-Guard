@@ -1,0 +1,27 @@
+{
+  "id": "case_010",
+  "name": "PII Redaction - PAN in Message",
+  "description": "User message contains PAN, system should redact it",
+  "input": {
+    "customerId": "cust_016",
+    "suspectTxnId": "txn_01012",
+    "userMessage": "My card number is 4111111111111111 and I see a suspicious charge"
+  },
+  "expected": {
+    "action": "CONTACT_CUSTOMER",
+    "status": "COMPLETED",
+    "riskScore": "low",
+    "piiRedacted": true,
+    "redactedMessage": "My card number is ****REDACTED**** and I see a suspicious charge",
+    "explanation": "PII detected and redacted from logs and traces"
+  },
+  "steps": [
+    "getProfile",
+    "redactPII",
+    "getRecentTransactions",
+    "riskSignals",
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ]
+}

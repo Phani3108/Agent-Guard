@@ -1,0 +1,25 @@
+{
+  "id": "case_004",
+  "name": "Geo-Velocity Anomaly - High Risk",
+  "description": "Transaction in Delhi at 10:10, then New York at 10:40 - impossible travel time",
+  "input": {
+    "customerId": "cust_87d94430",
+    "suspectTxnId": "txn_68dcf56d",
+    "userMessage": "I see a charge in New York but I'm in Delhi"
+  },
+  "expected": {
+    "action": "FREEZE_CARD",
+    "status": "PENDING_OTP",
+    "riskScore": "high",
+    "reasons": ["geo_velocity_anomaly", "impossible_travel_time"],
+    "explanation": "Transactions in Delhi and New York within 30 minutes indicate potential fraud"
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions",
+    "riskSignals",
+    "kbLookup",
+    "decide", 
+    "proposeAction"
+  ]
+}

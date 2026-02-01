@@ -1,0 +1,16 @@
+forbidden:
+  keywords:
+    - "password"
+    - "credit card"
+    - "SSN"
+channels:
+  requireOptIn:
+    - "sms"
+    - "whatsapp"
+frequency:
+  maxPerUserPerDay: 5
+geos:
+  restricted:
+    - "CN"
+    - "IR"
+

@@ -1,0 +1,3 @@
+﻿id,customerId,cardId,deviceId,mcc,merchant,amount,currency,ts,geo_lat,geo_lon,geo_country
+txn_test_final_001,cust_87d94430,card_6e08332f,dev_5117a5e9,5411,Final Test Store,100000,INR,2025-01-22T10:30:00Z,28.6139,77.209,IN
+txn_test_final_002,cust_8f7e602c,card_1cb11bca,dev_6ad6bac0,5812,Final Test Restaurant,50000,INR,2025-01-22T11:15:00Z,28.6139,77.209,IN

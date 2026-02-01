@@ -1,0 +1,4 @@
+id,customerId,cardId,deviceId,mcc,merchant,amount,currency,ts,geo_lat,geo_lon,geo_country
+txn_test_001,cust_87d94430,card_6e08332f,dev_5117a5e9,5411,Test Grocery Store,150000,INR,2025-01-18T10:30:00Z,28.6139,77.209,IN
+txn_test_002,cust_8f7e602c,card_1cb11bca,dev_6ad6bac0,5812,Test Restaurant,75000,INR,2025-01-18T11:15:00Z,28.6139,77.209,IN
+txn_test_003,cust_cdccac40,card_3b570984,dev_e35bea91,5541,Test Gas Station,25000,INR,2025-01-18T12:00:00Z,28.6139,77.209,IN

@@ -1,0 +1,25 @@
+{
+  "id": "case_001",
+  "name": "Card Lost - Freeze with OTP",
+  "description": "Customer reports lost card, system should freeze card after OTP verification",
+  "input": {
+    "customerId": "cust_8f7e602c",
+    "suspectTxnId": "txn_560680b1",
+    "userMessage": "I lost my card yesterday, please freeze it immediately"
+  },
+  "expected": {
+    "action": "FREEZE_CARD",
+    "status": "FROZEN",
+    "otpRequired": true,
+    "riskScore": "high",
+    "reasons": ["card_lost", "customer_request"]
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions", 
+    "riskSignals",
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ]
+}

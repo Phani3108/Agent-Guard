@@ -1,0 +1,5 @@
+packages:
+  - "apps/*"
+  - "apps/sentinel/apps/*"
+  - "apps/sentinel/packages/*"
+  - "packages/*"

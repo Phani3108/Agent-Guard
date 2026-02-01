@@ -1,0 +1,182 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">Agent Evaluations</h1>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="row mb-4" *ngIf="evalSummary">
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Total Cases</h5>
+          <h2 class="text-primary">{{ evalSummary.total_cases }}</h2>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Passed</h5>
+          <h2 class="text-success">{{ evalSummary.passed }}</h2>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Failed</h5>
+          <h2 class="text-danger">{{ evalSummary.failed }}</h2>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Success Rate</h5>
+          <h2 class="text-info">{{ evalSummary.success_rate }}%</h2>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Avg Latency</h5>
+          <h2 class="text-warning">{{ evalSummary.avg_latency_ms | number:'1.0-0' }}ms</h2>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Fallback Rate</h5>
+          <h2 class="text-secondary">{{ evalSummary.fallback_rate }}%</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" (click)="runAllEvaluations()" [disabled]="running">
+              <i class="fas fa-play me-2"></i>
+              Run All Evaluations
+            </button>
+            
+            <button class="btn btn-secondary" (click)="loadEvalResults()" [disabled]="running">
+              <i class="fas fa-refresh me-2"></i>
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="row" *ngIf="loading">
+    <div class="col-12 text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading evaluation cases...</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div class="row" *ngIf="error && !loading">
+    <div class="col-12">
+      <div class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ error }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Evaluation Cases -->
+  <div class="row" *ngIf="!loading && !error">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Evaluation Cases</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3" *ngFor="let case_ of evalCases">
+              <div class="card h-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="card-title">{{ case_.name }}</h6>
+                    <span class="badge" [class]="'bg-' + getStatusBadgeClass(case_.status)">
+                      <i class="fas" [class]="getStatusIcon(case_.status)"></i>
+                      {{ case_.status | titlecase }}
+                    </span>
+                  </div>
+                  
+                  <p class="card-text text-muted">{{ case_.description }}</p>
+                  
+                  <div class="mb-2">
+                    <small class="text-muted">
+                      <strong>Expected:</strong> {{ case_.expectedOutcome }}
+                    </small>
+                  </div>
+                  
+                  <div *ngIf="case_.result" class="mb-2">
+                    <small class="text-muted">
+                      <strong>Result:</strong> {{ case_.result.action || case_.result.final_result?.action || 'N/A' }}
+                    </small>
+                    <br>
+                    <small class="text-muted">
+                      <strong>Risk Level:</strong> {{ case_.result.risk_level || case_.result.final_result?.risk_level || 'N/A' }}
+                    </small>
+                    <br>
+                    <small class="text-muted">
+                      <strong>Duration:</strong> {{ case_.duration | number:'1.0-0' }}ms
+                    </small>
+                  </div>
+                  
+                  <div *ngIf="case_.evaluation" class="mb-2">
+                    <div *ngIf="case_.evaluation.checks?.length > 0">
+                      <small class="text-success">
+                        <strong>✓ Checks:</strong> {{ case_.evaluation.checks.join(', ') }}
+                      </small>
+                    </div>
+                    <div *ngIf="case_.evaluation.errors?.length > 0">
+                      <small class="text-danger">
+                        <strong>✗ Errors:</strong> {{ case_.evaluation.errors.join(', ') }}
+                      </small>
+                    </div>
+                  </div>
+                  
+                  <div *ngIf="case_.error" class="mb-2">
+                    <small class="text-danger">
+                      <strong>Error:</strong> {{ case_.error }}
+                    </small>
+                  </div>
+                  
+                  <button 
+                    class="btn btn-sm btn-outline-primary" 
+                    (click)="runSingleEvaluation(case_)"
+                    [disabled]="case_.status === 'running'">
+                    <i class="fas fa-play me-1"></i>
+                    Run Test
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

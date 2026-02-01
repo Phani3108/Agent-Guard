@@ -1,0 +1,9 @@
+{
+  "id": "seg1",
+  "name": "Active Users",
+  "definition": {
+    "last_seen_days": { "$lt": 7 }
+  },
+  "estimatedSize": 250000
+}
+

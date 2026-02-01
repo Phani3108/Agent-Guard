@@ -1,0 +1,98 @@
+[
+  {
+    "id": "txn_01001",
+    "customerId": "cust_017",
+    "cardId": "card_093",
+    "mcc": "6011",
+    "merchant": "ATM Withdrawal",
+    "amount": -10000,
+    "currency": "INR",
+    "ts": "2025-06-13T13:02:11Z",
+    "deviceId": "dev_45",
+    "geo": {
+      "lat": 28.61,
+      "lon": 77.21,
+      "country": "IN"
+    }
+  },
+  {
+    "id": "txn_01002",
+    "customerId": "cust_017",
+    "cardId": "card_093",
+    "mcc": "5411",
+    "merchant": "ABC Mart",
+    "amount": -499900,
+    "currency": "INR",
+    "ts": "2025-06-12T14:30:00Z",
+    "deviceId": "dev_18",
+    "geo": {
+      "lat": 28.61,
+      "lon": 77.21,
+      "country": "IN"
+    }
+  },
+  {
+    "id": "txn_01003",
+    "customerId": "cust_001",
+    "cardId": "card_001",
+    "mcc": "5812",
+    "merchant": "QuickCab",
+    "amount": -25000,
+    "currency": "INR",
+    "ts": "2025-06-12T10:15:00Z",
+    "deviceId": "dev_001",
+    "geo": {
+      "lat": 19.07,
+      "lon": 72.87,
+      "country": "IN"
+    }
+  },
+  {
+    "id": "txn_01004",
+    "customerId": "cust_001",
+    "cardId": "card_001",
+    "mcc": "5812",
+    "merchant": "QuickCab",
+    "amount": -25000,
+    "currency": "INR",
+    "ts": "2025-06-12T10:16:00Z",
+    "deviceId": "dev_001",
+    "geo": {
+      "lat": 19.07,
+      "lon": 72.87,
+      "country": "IN"
+    }
+  },
+  {
+    "id": "txn_01005",
+    "customerId": "cust_005",
+    "cardId": "card_006",
+    "mcc": "5411",
+    "merchant": "Delhi Store",
+    "amount": -150000,
+    "currency": "INR",
+    "ts": "2025-06-13T10:10:00Z",
+    "deviceId": "dev_006",
+    "geo": {
+      "lat": 28.61,
+      "lon": 77.21,
+      "country": "IN"
+    }
+  },
+  {
+    "id": "txn_01006",
+    "customerId": "cust_005",
+    "cardId": "card_006",
+    "mcc": "5411",
+    "merchant": "NYC Store",
+    "amount": -200000,
+    "currency": "INR",
+    "ts": "2025-06-13T10:40:00Z",
+    "deviceId": "dev_006",
+    "geo": {
+      "lat": 40.71,
+      "lon": -74.01,
+      "country": "US"
+    }
+  }
+]

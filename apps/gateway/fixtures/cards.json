@@ -1,0 +1,156 @@
+[
+  {
+    "id": "card_001",
+    "customerId": "cust_001",
+    "last4": "1234",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_002",
+    "customerId": "cust_001", 
+    "last4": "5678",
+    "status": "FROZEN",
+    "network": "MASTERCARD"
+  },
+  {
+    "id": "card_003",
+    "customerId": "cust_002",
+    "last4": "9012",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_004",
+    "customerId": "cust_003",
+    "last4": "3456",
+    "status": "ACTIVE",
+    "network": "RUPAY"
+  },
+  {
+    "id": "card_005",
+    "customerId": "cust_004",
+    "last4": "7890",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_006",
+    "customerId": "cust_005",
+    "last4": "2468",
+    "status": "ACTIVE",
+    "network": "MASTERCARD"
+  },
+  {
+    "id": "card_007",
+    "customerId": "cust_006",
+    "last4": "1357",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_008",
+    "customerId": "cust_007",
+    "last4": "9753",
+    "status": "ACTIVE",
+    "network": "RUPAY"
+  },
+  {
+    "id": "card_009",
+    "customerId": "cust_008",
+    "last4": "8642",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_010",
+    "customerId": "cust_009",
+    "last4": "7531",
+    "status": "ACTIVE",
+    "network": "MASTERCARD"
+  },
+  {
+    "id": "card_011",
+    "customerId": "cust_010",
+    "last4": "6420",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_012",
+    "customerId": "cust_011",
+    "last4": "5319",
+    "status": "ACTIVE",
+    "network": "RUPAY"
+  },
+  {
+    "id": "card_013",
+    "customerId": "cust_012",
+    "last4": "4208",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_014",
+    "customerId": "cust_013",
+    "last4": "3197",
+    "status": "ACTIVE",
+    "network": "MASTERCARD"
+  },
+  {
+    "id": "card_015",
+    "customerId": "cust_014",
+    "last4": "2086",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_016",
+    "customerId": "cust_015",
+    "last4": "1975",
+    "status": "ACTIVE",
+    "network": "RUPAY"
+  },
+  {
+    "id": "card_017",
+    "customerId": "cust_016",
+    "last4": "0864",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_018",
+    "customerId": "cust_017",
+    "last4": "9753",
+    "status": "ACTIVE",
+    "network": "MASTERCARD"
+  },
+  {
+    "id": "card_019",
+    "customerId": "cust_018",
+    "last4": "8642",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_020",
+    "customerId": "cust_019",
+    "last4": "7531",
+    "status": "ACTIVE",
+    "network": "RUPAY"
+  },
+  {
+    "id": "card_021",
+    "customerId": "cust_020",
+    "last4": "6420",
+    "status": "ACTIVE",
+    "network": "VISA"
+  },
+  {
+    "id": "card_093",
+    "customerId": "cust_017",
+    "last4": "0934",
+    "status": "ACTIVE",
+    "network": "VISA"
+  }
+]

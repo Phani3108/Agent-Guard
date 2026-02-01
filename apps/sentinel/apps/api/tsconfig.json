@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@sentinel/shared/*": ["../../packages/shared/src/*"]
+    },
+    "types": ["node", "reflect-metadata"]
+  },
+  "include": ["src/**/*"]
+}
+

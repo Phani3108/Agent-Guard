@@ -1,0 +1,25 @@
+{
+  "id": "case_005",
+  "name": "Device Change + MCC Anomaly - Medium Risk",
+  "description": "New device with unusual merchant category code pattern",
+  "input": {
+    "customerId": "cust_007",
+    "suspectTxnId": "txn_01007",
+    "userMessage": "I see a charge I don't recognize"
+  },
+  "expected": {
+    "action": "CONTACT_CUSTOMER",
+    "status": "COMPLETED",
+    "riskScore": "medium",
+    "reasons": ["device_change", "mcc_anomaly"],
+    "explanation": "Transaction from new device with unusual merchant category"
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions",
+    "riskSignals",
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$ref": "#/definitions/SegmentSnapshot",
+  "definitions": {
+    "SegmentSnapshot": {
+      "type": "object",
+      "properties": {
+        "segment_id": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "distributions": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "conv_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "velocity_in": {
+          "type": "number"
+        },
+        "velocity_out": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "segment_id",
+        "ts",
+        "size"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

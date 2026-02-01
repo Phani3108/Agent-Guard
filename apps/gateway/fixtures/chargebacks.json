@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cb_001",
+    "customerId": "cust_003",
+    "transactionId": "txn_old_001",
+    "reasonCode": "10.4",
+    "amount": 500000,
+    "status": "RESOLVED",
+    "createdAt": "2024-12-01T10:00:00Z",
+    "resolvedAt": "2024-12-15T14:30:00Z"
+  },
+  {
+    "id": "cb_002",
+    "customerId": "cust_003",
+    "transactionId": "txn_old_002",
+    "reasonCode": "10.4",
+    "amount": 750000,
+    "status": "RESOLVED",
+    "createdAt": "2024-11-15T09:30:00Z",
+    "resolvedAt": "2024-11-30T16:45:00Z"
+  },
+  {
+    "id": "cb_003",
+    "customerId": "cust_007",
+    "transactionId": "txn_old_003",
+    "reasonCode": "10.4",
+    "amount": 300000,
+    "status": "OPEN",
+    "createdAt": "2025-01-10T11:20:00Z",
+    "resolvedAt": null
+  },
+  {
+    "id": "cb_004",
+    "customerId": "cust_011",
+    "transactionId": "txn_old_004",
+    "reasonCode": "10.4",
+    "amount": 1200000,
+    "status": "RESOLVED",
+    "createdAt": "2024-10-20T13:15:00Z",
+    "resolvedAt": "2024-11-05T10:30:00Z"
+  },
+  {
+    "id": "cb_005",
+    "customerId": "cust_015",
+    "transactionId": "txn_old_005",
+    "reasonCode": "10.4",
+    "amount": 800000,
+    "status": "REJECTED",
+    "createdAt": "2024-09-25T15:45:00Z",
+    "resolvedAt": "2024-10-10T12:00:00Z"
+  }
+]

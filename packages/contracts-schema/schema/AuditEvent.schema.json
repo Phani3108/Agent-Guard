@@ -1,0 +1,40 @@
+{
+  "$ref": "#/definitions/AuditEvent",
+  "definitions": {
+    "AuditEvent": {
+      "type": "object",
+      "properties": {
+        "request_id": {
+          "type": "string"
+        },
+        "tenant_id": {
+          "type": "string"
+        },
+        "app": {
+          "type": "string",
+          "enum": [
+            "gateway",
+            "sentinel",
+            "pulse"
+          ]
+        },
+        "event_type": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "string"
+        },
+        "payload": {}
+      },
+      "required": [
+        "request_id",
+        "tenant_id",
+        "app",
+        "event_type",
+        "ts"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "agentguard",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "turbo run dev",
+        "build": "turbo run build",
+        "lint": "turbo run lint",
+        "test": "turbo run test",
+        "contracts:schema": "pnpm --filter @agentguard/contracts build-schema"
+    },
+    "devDependencies": {
+        "turbo": "latest"
+    },
+    "packageManager": "pnpm@10.14.0"
+}

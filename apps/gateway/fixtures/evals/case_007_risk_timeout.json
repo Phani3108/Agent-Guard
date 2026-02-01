@@ -1,0 +1,27 @@
+{
+  "id": "case_007",
+  "name": "Risk Service Timeout - Fallback",
+  "description": "Risk service fails, system should fallback to rule-based assessment",
+  "input": {
+    "customerId": "cust_010",
+    "suspectTxnId": "txn_01009",
+    "userMessage": "Is this transaction safe?"
+  },
+  "expected": {
+    "action": "CONTACT_CUSTOMER",
+    "status": "COMPLETED",
+    "riskScore": "medium",
+    "reasons": ["risk_unavailable", "fallback_used"],
+    "fallbackUsed": true,
+    "explanation": "Risk assessment unavailable, using fallback rules"
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions",
+    "riskSignals",
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ],
+  "simulateFailure": "riskSignals"
+}

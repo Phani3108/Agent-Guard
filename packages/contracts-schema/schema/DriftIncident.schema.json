@@ -1,0 +1,67 @@
+{
+  "$ref": "#/definitions/DriftIncident",
+  "definitions": {
+    "DriftIncident": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "segment_id": {
+          "type": "string"
+        },
+        "ts": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "SIZE_JUMP",
+            "DISTRIBUTION_SHIFT",
+            "CONVERSION_ANOMALY",
+            "INACTIVITY_CREEP",
+            "OTHER"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "BLOCKER"
+          ]
+        },
+        "evidence": {},
+        "explanation": {
+          "type": "string"
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "OPEN",
+            "ACKED",
+            "RESOLVED"
+          ],
+          "default": "OPEN"
+        }
+      },
+      "required": [
+        "id",
+        "segment_id",
+        "ts",
+        "type",
+        "severity"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

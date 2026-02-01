@@ -1,0 +1,23 @@
+{
+  "id": "case_011",
+  "name": "KB FAQ - Travel Notice",
+  "description": "Customer asks about travel notice, system should provide cited information",
+  "input": {
+    "customerId": "cust_018",
+    "suspectTxnId": null,
+    "userMessage": "How do I set a travel notice for my upcoming trip?"
+  },
+  "expected": {
+    "action": "PROVIDE_INFORMATION",
+    "status": "COMPLETED",
+    "riskScore": "low",
+    "citations": ["kb_travel"],
+    "explanation": "Information provided from knowledge base with proper citations"
+  },
+  "steps": [
+    "getProfile",
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ]
+}

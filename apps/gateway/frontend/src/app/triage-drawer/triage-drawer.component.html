@@ -1,0 +1,132 @@
+<div class="modal fade show d-block" *ngIf="isOpen" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Fraud Triage</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body" *ngIf="alert">
+        <!-- Alert Information -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <h6 class="card-title mb-0">Alert Details</h6>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="customer-info">
+                  <h6 class="fw-bold">{{ alert.customerName }}</h6>
+                  <small class="text-muted">{{ alert.customerId }}</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="transaction-info">
+                  <h6 class="fw-bold text-danger">₹{{ alert.amount | number }}</h6>
+                  <div>{{ alert.merchant }}</div>
+                  <small class="text-muted">{{ alert.createdAt | date:'short' }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="mt-2">
+              <span class="badge" [class]="'bg-' + getRiskBadgeClass(alert.riskLevel)">
+                Risk: {{ alert.riskLevel | uppercase }} ({{ alert.riskScore }}%)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Processing Status -->
+        <div class="card mb-3" *ngIf="isProcessing">
+          <div class="card-header">
+            <h6 class="card-title mb-0">Processing Triage</h6>
+          </div>
+          <div class="card-body">
+            <div class="progress-steps">
+              <div class="step mb-2" *ngFor="let step of progressSteps; let i = index" 
+                   [class.active]="i === currentStep"
+                   [class.completed]="step.status === 'completed'"
+                   [class.failed]="step.status === 'failed'"
+                   [class.fallback]="step.status === 'fallback'">
+                <div class="d-flex align-items-center">
+                  <i class="fas me-3" [class]="getStepIcon(step)"></i>
+                  <div class="flex-grow-1">
+                    <div class="fw-bold" [class]="getStepTextClass(step.status)">{{ step.name }}</div>
+                    <small class="text-muted">{{ step.status }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Display -->
+        <div class="alert alert-danger" *ngIf="error">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          {{ error }}
+        </div>
+
+        <!-- Triage Result -->
+        <div class="card mb-3" *ngIf="triageResult && !isProcessing">
+          <div class="card-header">
+            <h6 class="card-title mb-0">Triage Result</h6>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <strong>Recommended Action:</strong>
+                <div class="mt-1">
+                  <span class="badge" [class]="'bg-' + getRiskBadgeClass(triageResult.result.risk_level)">
+                    {{ triageResult.result.action }}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <strong>Risk Level:</strong>
+                <div class="mt-1">
+                  <span class="badge" [class]="'bg-' + getRiskBadgeClass(triageResult.result.risk_level)">
+                    {{ triageResult.result.risk_level | uppercase }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3" *ngIf="triageResult.result.reasons.length > 0">
+              <strong>Reasons:</strong>
+              <ul class="mt-1">
+                <li *ngFor="let reason of triageResult.result.reasons">{{ reason }}</li>
+              </ul>
+            </div>
+
+            <div class="mb-3" *ngIf="triageResult.result.message">
+              <strong>Message:</strong>
+              <div class="alert alert-info mt-1">{{ triageResult.result.message }}</div>
+            </div>
+
+            <div class="mb-3" *ngIf="triageResult.result.citations.length > 0">
+              <strong>Citations:</strong>
+              <ul class="mt-1">
+                <li *ngFor="let citation of triageResult.result.citations">{{ citation }}</li>
+              </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary" 
+                      (click)="executeAction(triageResult.result.action)"
+                      [disabled]="triageResult.result.otp_required">
+                <i class="fas fa-check me-2"></i>
+                Execute {{ triageResult.result.action }}
+              </button>
+              
+              <button class="btn btn-secondary" (click)="close()">
+                <i class="fas fa-times me-2"></i>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

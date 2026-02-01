@@ -1,0 +1,25 @@
+{
+  "id": "case_006",
+  "name": "Heavy Chargeback History - Escalate",
+  "description": "Customer with multiple past chargebacks requires escalation",
+  "input": {
+    "customerId": "cust_003",
+    "suspectTxnId": "txn_01008",
+    "userMessage": "This charge looks suspicious"
+  },
+  "expected": {
+    "action": "ESCALATE_CASE",
+    "status": "COMPLETED",
+    "riskScore": "high",
+    "reasons": ["chargeback_history", "repeat_offender"],
+    "explanation": "Customer has multiple past chargebacks, case requires manual review"
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions",
+    "riskSignals",
+    "kbLookup",
+    "decide",
+    "proposeAction"
+  ]
+}

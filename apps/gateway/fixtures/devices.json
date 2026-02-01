@@ -1,0 +1,156 @@
+[
+  {
+    "id": "dev_001",
+    "customerId": "cust_001",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_001_android_12",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_002",
+    "customerId": "cust_001",
+    "device_type": "desktop",
+    "device_fingerprint": "fp_002_windows_11",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_003",
+    "customerId": "cust_002",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_003_ios_16",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_004",
+    "customerId": "cust_003",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_004_android_13",
+    "is_trusted": false
+  },
+  {
+    "id": "dev_005",
+    "customerId": "cust_004",
+    "device_type": "tablet",
+    "device_fingerprint": "fp_005_ipad_os",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_006",
+    "customerId": "cust_005",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_006_android_11",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_007",
+    "customerId": "cust_006",
+    "device_type": "desktop",
+    "device_fingerprint": "fp_007_macos_13",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_008",
+    "customerId": "cust_007",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_008_android_12",
+    "is_trusted": false
+  },
+  {
+    "id": "dev_009",
+    "customerId": "cust_008",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_009_ios_15",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_010",
+    "customerId": "cust_009",
+    "device_type": "desktop",
+    "device_fingerprint": "fp_010_linux_ubuntu",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_011",
+    "customerId": "cust_010",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_011_android_13",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_012",
+    "customerId": "cust_011",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_012_ios_16",
+    "is_trusted": false
+  },
+  {
+    "id": "dev_013",
+    "customerId": "cust_012",
+    "device_type": "tablet",
+    "device_fingerprint": "fp_013_android_tablet",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_014",
+    "customerId": "cust_013",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_014_android_12",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_015",
+    "customerId": "cust_014",
+    "device_type": "desktop",
+    "device_fingerprint": "fp_015_windows_10",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_016",
+    "customerId": "cust_015",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_016_ios_14",
+    "is_trusted": false
+  },
+  {
+    "id": "dev_017",
+    "customerId": "cust_016",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_017_android_11",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_018",
+    "customerId": "cust_017",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_018_android_13",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_019",
+    "customerId": "cust_018",
+    "device_type": "desktop",
+    "device_fingerprint": "fp_019_macos_12",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_020",
+    "customerId": "cust_019",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_020_android_12",
+    "is_trusted": false
+  },
+  {
+    "id": "dev_021",
+    "customerId": "cust_020",
+    "device_type": "tablet",
+    "device_fingerprint": "fp_021_ipad_os",
+    "is_trusted": true
+  },
+  {
+    "id": "dev_45",
+    "customerId": "cust_017",
+    "device_type": "mobile",
+    "device_fingerprint": "fp_045_android_13_new",
+    "is_trusted": false
+  }
+]

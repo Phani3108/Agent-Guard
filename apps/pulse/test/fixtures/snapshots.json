@@ -1,0 +1,54 @@
+[
+  {
+    "id": "snapshot-1",
+    "segmentId": "segment-1",
+    "timestamp": "2026-01-25T10:00:00Z",
+    "size": 10000,
+    "attributeDistributions": {
+      "platform": {
+        "ios": 4500,
+        "android": 4000,
+        "web": 1500
+      },
+      "status": {
+        "active": 7000,
+        "dormant": 2000,
+        "churned": 1000
+      },
+      "tier": {
+        "free": 6000,
+        "premium": 3000,
+        "enterprise": 1000
+      }
+    },
+    "conversionRate": 0.15,
+    "velocityIn": 500,
+    "velocityOut": 300
+  },
+  {
+    "id": "snapshot-2",
+    "segmentId": "segment-1",
+    "timestamp": "2026-01-26T10:00:00Z",
+    "size": 5800,
+    "attributeDistributions": {
+      "platform": {
+        "ios": 4500,
+        "android": 0,
+        "web": 1300
+      },
+      "status": {
+        "active": 4000,
+        "dormant": 1200,
+        "churned": 600
+      },
+      "tier": {
+        "free": 3500,
+        "premium": 1800,
+        "enterprise": 500
+      }
+    },
+    "conversionRate": 0.10,
+    "velocityIn": 300,
+    "velocityOut": 800
+  }
+]

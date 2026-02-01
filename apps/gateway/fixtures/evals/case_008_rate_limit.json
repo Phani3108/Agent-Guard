@@ -1,0 +1,19 @@
+{
+  "id": "case_008",
+  "name": "Rate Limit - 429 Response",
+  "description": "System should return 429 with retryAfterMs when rate limited",
+  "input": {
+    "customerId": "cust_012",
+    "suspectTxnId": "txn_01010",
+    "userMessage": "Check this transaction"
+  },
+  "expected": {
+    "status": "RATE_LIMITED",
+    "retryAfterMs": 2000,
+    "errorCode": "429"
+  },
+  "steps": [
+    "getProfile"
+  ],
+  "simulateRateLimit": true
+}

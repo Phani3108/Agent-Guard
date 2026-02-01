@@ -1,0 +1,25 @@
+{
+  "id": "case_003",
+  "name": "Duplicate Transaction - Explanation Only",
+  "description": "Customer reports duplicate charge, system should explain preauth vs capture without opening dispute",
+  "input": {
+    "customerId": "cust_8f7e602c",
+    "suspectTxnId": "txn_560680b1",
+    "userMessage": "I was charged twice at Final Test Restaurant for the same meal"
+  },
+  "expected": {
+    "action": "EXPLAIN_ONLY",
+    "status": "COMPLETED",
+    "riskScore": "low",
+    "reasons": ["duplicate_explanation", "preauth_vs_capture"],
+    "explanation": "This appears to be a preauthorization and capture pattern, not a duplicate charge"
+  },
+  "steps": [
+    "getProfile",
+    "getRecentTransactions",
+    "riskSignals",
+    "kbLookup", 
+    "decide",
+    "proposeAction"
+  ]
+}

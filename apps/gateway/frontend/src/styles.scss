@@ -1,0 +1,110 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Angular Material Theme */
+@import '@angular/material/theming';
+
+/* Include the common styles for Angular Material */
+@include mat-core();
+
+/* Define the palettes for your theme using the Material Design palettes available in palette.scss */
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$warn: mat-palette($mat-red);
+
+/* Create the theme object */
+$theme: mat-light-theme($primary, $accent, $warn);
+
+/* Include theme styles for core and each component used in your app */
+@include angular-material-theme($theme);
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+  padding: 20px;
+}
+
+.kpi-card {
+  margin-bottom: 20px;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: mat-color($primary);
+}
+
+.kpi-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Table Styles */
+.data-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Triage Drawer Styles */
+.triage-drawer {
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.risk-badge {
+  &.low {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  &.medium {
+    background-color: #ff9800;
+    color: white;
+  }
+  
+  &.high {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+/* Customer Page Styles */
+.customer-header {
+  margin-bottom: 20px;
+}
+
+.transaction-timeline {
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .triage-drawer {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
