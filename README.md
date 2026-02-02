@@ -1,5 +1,5 @@
 ##AgentGuard — AI Control Plane for Agentic Engagement Systems
--What problem this solves (in plain terms)
+*What problem this solves (in plain terms)
 -- MoEngage is moving from rule-driven automation to agentic workflows — systems that reason, decide, and act on behalf of marketers and operators.
 
 That shift creates three new risks at scale:
@@ -24,10 +24,10 @@ Core capabilities (built as one system)
 -- Flags fatigue, over-messaging, compliance risks
 -- Produces a structured risk report + recommended fixes
 
-*Impact
--- Fewer rollbacks
--- Lower support load
--- Higher trust in AI-assisted campaign creation
+   *Impact
+   -- Fewer rollbacks
+   -- Lower support load
+   -- Higher trust in AI-assisted campaign creation
 
 2. Pulse — Segment Drift & Audience Observability
 -- Makes audiences observable, not static.
@@ -36,10 +36,10 @@ Core capabilities (built as one system)
 -- Explains why drift happened using agentic diagnosis
 -- Recommends corrective actions before performance drops
 
-*Impact
--- Early detection instead of reactive firefighting
--- Better ROI from existing campaigns
--- Stronger trust in segmentation at scale
+   *Impact
+   -- Early detection instead of reactive firefighting
+   -- Better ROI from existing campaigns
+   -- Stronger trust in segmentation at scale
 
 3. Gateway (Aegis) — PII, Policy & Tool Firewall
 -- Enterprise-grade safety layer for agentic systems.
@@ -48,10 +48,10 @@ Core capabilities (built as one system)
 -- Enforces policy on tool calls (read vs write, rate limits)
 -- Creates replayable audit trails for every decision
 
-*Impact
--- CTO/CISO-approved agentic adoption
--- Reduced regulatory and data exposure risk
--- Clear explainability for AI decisions
+   *Impact
+   -- CTO/CISO-approved agentic adoption
+   -- Reduced regulatory and data exposure risk
+   -- Clear explainability for AI decisions
 
 
 ## Monorepo layout
