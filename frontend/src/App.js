@@ -1,0 +1,644 @@
+import React, { useState } from 'react';
+import './App.css';
+import sampleInputs from './sample-inputs.json';
+
+function App() {
+  const [formData, setFormData] = useState({
+    campaign_name: '',
+    content: {
+      text: '',
+      image_url: '',
+      video_url: '',
+      call_to_action: ''
+    },
+    metadata: {
+      platform: 'LinkedIn',
+      content_type: 'post',
+      campaign_id: ''
+    },
+    target_audience: {
+      age_group: '',
+      region: '',
+      interests: [],
+      industry: ''
+    },
+    schedule: {
+      preferred_time: null,
+      timezone: 'America/New_York'
+    },
+    options: {
+      request_rewrites: true,
+      rewrite_count: 3,
+      strict_mode: false
+    }
+  });
+
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('overview');
+
+  const handleInputChange = (section, field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value
+      }
+    }));
+  };
+
+  const handleInterestsChange = (value) => {
+    const interests = value.split(',').map(i => i.trim()).filter(i => i);
+    setFormData(prev => ({
+      ...prev,
+      target_audience: {
+        ...prev.target_audience,
+        interests
+      }
+    }));
+  };
+
+  const loadSample = (sampleKey) => {
+    const sample = sampleInputs[sampleKey];
+    if (sample) {
+      setFormData(sample);
+      setResult(null);
+      setError('');
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setResult(data);
+        setActiveTab('overview');
+      } else {
+        setError(data.error || 'Review failed');
+      }
+    } catch (err) {
+      setError('Failed to connect to backend. Make sure the server is running on port 5000.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getScoreColor = (score) => {
+    if (score >= 8.5) return '#22c55e';
+    if (score >= 6.0) return '#f59e0b';
+    if (score >= 4.0) return '#ef4444';
+    return '#dc2626';
+  };
+
+  const getRecommendationBadge = (recommendation) => {
+    const badges = {
+      'approve': { text: '✓ Approved', color: '#22c55e' },
+      'approve_with_changes': { text: '⚠ Approve with Changes', color: '#f59e0b' },
+      'review_required': { text: '⚡ Review Required', color: '#ef4444' },
+      'reject': { text: '✗ Rejected', color: '#dc2626' }
+    };
+    return badges[recommendation] || badges['review_required'];
+  };
+
+  return (
+    <div className="App">
+      <header className="app-header">
+        <div className="header-content">
+          <h1>🛡️ AgentGuard</h1>
+          <p>AI-Powered Marketing Content Review Platform</p>
+        </div>
+      </header>
+
+      <div className="app-container">
+        <div className="input-section">
+          <div className="section-header">
+            <h2>Content Review Input</h2>
+            <div className="sample-buttons">
+              <button onClick={() => loadSample('sample_input_1')} className="sample-btn">
+                Sample 1: SaaS Launch
+              </button>
+              <button onClick={() => loadSample('sample_input_2')} className="sample-btn">
+                Sample 2: Fashion
+              </button>
+              <button onClick={() => loadSample('sample_input_4_problematic')} className="sample-btn error">
+                Sample 3: Problematic
+              </button>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="review-form">
+            <div className="form-group">
+              <label>Campaign Name</label>
+              <input
+                type="text"
+                value={formData.campaign_name}
+                onChange={(e) => setFormData({...formData, campaign_name: e.target.value})}
+                placeholder="e.g., Q1 2026 Product Launch"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Platform</label>
+              <select
+                value={formData.metadata.platform}
+                onChange={(e) => handleInputChange('metadata', 'platform', e.target.value)}
+              >
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Twitter">Twitter/X</option>
+                <option value="Facebook">Facebook</option>
+                <option value="TikTok">TikTok</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label>Content Text *</label>
+              <textarea
+                value={formData.content.text}
+                onChange={(e) => handleInputChange('content', 'text', e.target.value)}
+                placeholder="Enter your marketing content here..."
+                rows={6}
+                required
+              />
+              <small>{formData.content.text.length} characters</small>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Image URL</label>
+                <input
+                  type="url"
+                  value={formData.content.image_url}
+                  onChange={(e) => handleInputChange('content', 'image_url', e.target.value)}
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+              <div className="form-group">
+                <label>Call to Action</label>
+                <input
+                  type="text"
+                  value={formData.content.call_to_action}
+                  onChange={(e) => handleInputChange('content', 'call_to_action', e.target.value)}
+                  placeholder="e.g., Learn More, Sign Up"
+                />
+              </div>
+            </div>
+
+            <div className="form-section-title">Target Audience</div>
+            
+            <div className="form-row">
+              <div className="form-group">
+                <label>Age Group</label>
+                <input
+                  type="text"
+                  value={formData.target_audience.age_group}
+                  onChange={(e) => handleInputChange('target_audience', 'age_group', e.target.value)}
+                  placeholder="e.g., 25-45"
+                />
+              </div>
+              <div className="form-group">
+                <label>Region</label>
+                <input
+                  type="text"
+                  value={formData.target_audience.region}
+                  onChange={(e) => handleInputChange('target_audience', 'region', e.target.value)}
+                  placeholder="e.g., North America"
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Industry</label>
+                <input
+                  type="text"
+                  value={formData.target_audience.industry}
+                  onChange={(e) => handleInputChange('target_audience', 'industry', e.target.value)}
+                  placeholder="e.g., B2B SaaS, E-commerce"
+                />
+              </div>
+              <div className="form-group">
+                <label>Interests (comma-separated)</label>
+                <input
+                  type="text"
+                  value={formData.target_audience.interests.join(', ')}
+                  onChange={(e) => handleInterestsChange(e.target.value)}
+                  placeholder="e.g., technology, innovation, startups"
+                />
+              </div>
+            </div>
+
+            <div className="form-section-title">Options</div>
+            
+            <div className="form-row checkbox-row">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.options.request_rewrites}
+                  onChange={(e) => handleInputChange('options', 'request_rewrites', e.target.checked)}
+                />
+                <span>Request content rewrites</span>
+              </label>
+              
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={formData.options.strict_mode}
+                  onChange={(e) => handleInputChange('options', 'strict_mode', e.target.checked)}
+                />
+                <span>Strict mode (reject on any violation)</span>
+              </label>
+            </div>
+
+            {formData.options.request_rewrites && (
+              <div className="form-group">
+                <label>Number of rewrites: {formData.options.rewrite_count}</label>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={formData.options.rewrite_count}
+                  onChange={(e) => handleInputChange('options', 'rewrite_count', parseInt(e.target.value))}
+                />
+              </div>
+            )}
+
+            <button type="submit" className="submit-btn" disabled={loading}>
+              {loading ? '🔄 Reviewing...' : '🚀 Submit for Review'}
+            </button>
+          </form>
+
+          {error && (
+            <div className="error-message">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
+        </div>
+
+        {result && (
+          <div className="results-section">
+            <div className="results-header">
+              <h2>Review Results</h2>
+              <div className="review-meta">
+                <span>Review ID: {result.review_id}</span>
+                <span>Processed in: {result.audit.processing_time_ms}ms</span>
+              </div>
+            </div>
+
+            <div className="score-card">
+              <div className="score-main" style={{ borderColor: getScoreColor(result.overall_score) }}>
+                <div className="score-value" style={{ color: getScoreColor(result.overall_score) }}>
+                  {result.overall_score}/10
+                </div>
+                <div className="score-label">Overall Score</div>
+              </div>
+              <div className="recommendation-badge" style={{ backgroundColor: getRecommendationBadge(result.recommendation).color }}>
+                {getRecommendationBadge(result.recommendation).text}
+              </div>
+            </div>
+
+            <div className="tabs">
+              <button 
+                className={activeTab === 'overview' ? 'tab active' : 'tab'} 
+                onClick={() => setActiveTab('overview')}
+              >
+                Overview
+              </button>
+              <button 
+                className={activeTab === 'pii' ? 'tab active' : 'tab'} 
+                onClick={() => setActiveTab('pii')}
+              >
+                PII Detection
+              </button>
+              <button 
+                className={activeTab === 'compliance' ? 'tab active' : 'tab'} 
+                onClick={() => setActiveTab('compliance')}
+              >
+                Compliance
+              </button>
+              <button 
+                className={activeTab === 'audience' ? 'tab active' : 'tab'} 
+                onClick={() => setActiveTab('audience')}
+              >
+                Audience Fit
+              </button>
+              <button 
+                className={activeTab === 'suggestions' ? 'tab active' : 'tab'} 
+                onClick={() => setActiveTab('suggestions')}
+              >
+                Suggestions
+              </button>
+              {result.suggestions?.content_rewrites?.length > 0 && (
+                <button 
+                  className={activeTab === 'rewrites' ? 'tab active' : 'tab'} 
+                  onClick={() => setActiveTab('rewrites')}
+                >
+                  Rewrites ({result.suggestions.content_rewrites.length})
+                </button>
+              )}
+            </div>
+
+            <div className="tab-content">
+              {activeTab === 'overview' && (
+                <div className="overview-tab">
+                  <div className="stat-grid">
+                    <div className="stat-card">
+                      <div className="stat-label">PII Detection</div>
+                      <div className={`stat-value ${result.pii_detection.detected ? 'warning' : 'success'}`}>
+                        {result.pii_detection.detected ? `${result.pii_detection.items.length} found` : 'None'}
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-label">Compliance Score</div>
+                      <div className="stat-value" style={{ color: getScoreColor(result.compliance.score) }}>
+                        {result.compliance.score}/10
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-label">Audience Fit</div>
+                      <div className="stat-value" style={{ color: getScoreColor(result.audience_fit.score) }}>
+                        {result.audience_fit.score}/10
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-label">Violations</div>
+                      <div className={`stat-value ${result.compliance.violations.length > 0 ? 'error' : 'success'}`}>
+                        {result.compliance.violations.length}
+                      </div>
+                    </div>
+                  </div>
+
+                  {result.compliance.violations.length > 0 && (
+                    <div className="alert alert-error">
+                      <h4>⚠️ Critical Issues</h4>
+                      <ul>
+                        {result.compliance.violations.map((v, i) => (
+                          <li key={i}>{v.message}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {result.compliance.warnings.length > 0 && (
+                    <div className="alert alert-warning">
+                      <h4>⚡ Warnings</h4>
+                      <ul>
+                        {result.compliance.warnings.map((w, i) => (
+                          <li key={i}>{w.message}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'pii' && (
+                <div className="pii-tab">
+                  {result.pii_detection.detected ? (
+                    <>
+                      <div className="alert alert-error">
+                        <h4>🚨 PII Detected</h4>
+                        <p>Sensitive information found in content. Review and remove before posting.</p>
+                      </div>
+                      
+                      <div className="pii-items">
+                        {result.pii_detection.items.map((item, i) => (
+                          <div key={i} className={`pii-item severity-${item.severity}`}>
+                            <div className="pii-type">{item.type.toUpperCase()}</div>
+                            <div className="pii-desc">{item.description}</div>
+                            <div className="pii-severity">Severity: {item.severity}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="redacted-content">
+                        <h4>Redacted Content:</h4>
+                        <pre>{result.pii_detection.redacted_content}</pre>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="alert alert-success">
+                      <h4>✅ No PII Detected</h4>
+                      <p>No personally identifiable information found in the content.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'compliance' && (
+                <div className="compliance-tab">
+                  <div className="compliance-score">
+                    <h3>Compliance Score: {result.compliance.score}/10</h3>
+                    <p className="compliance-status">Status: {result.compliance.status}</p>
+                  </div>
+
+                  {result.compliance.ai_assessment && (
+                    <div className="ai-assessment">
+                      <h4>AI Assessment</h4>
+                      <p>{result.compliance.ai_assessment}</p>
+                    </div>
+                  )}
+
+                  {result.compliance.passed_checks.length > 0 && (
+                    <div className="passed-checks">
+                      <h4>✅ Passed Checks</h4>
+                      <div className="check-tags">
+                        {result.compliance.passed_checks.map((check, i) => (
+                          <span key={i} className="check-tag success">{check}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {result.compliance.violations.length > 0 && (
+                    <div className="violations">
+                      <h4>❌ Violations</h4>
+                      {result.compliance.violations.map((v, i) => (
+                        <div key={i} className={`violation-item severity-${v.severity}`}>
+                          <strong>{v.rule}:</strong> {v.message}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {result.compliance.warnings.length > 0 && (
+                    <div className="warnings">
+                      <h4>⚠️ Warnings</h4>
+                      {result.compliance.warnings.map((w, i) => (
+                        <div key={i} className="warning-item">
+                          <strong>{w.rule}:</strong> {w.message}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'audience' && (
+                <div className="audience-tab">
+                  <div className="audience-score">
+                    <h3>Audience Fit Score: {result.audience_fit.score}/10</h3>
+                  </div>
+
+                  <div className="audience-analysis">
+                    <h4>Analysis</h4>
+                    <div className="analysis-grid">
+                      <div className="analysis-item">
+                        <label>Tone:</label>
+                        <span>{result.audience_fit.analysis.tone}</span>
+                      </div>
+                      <div className="analysis-item">
+                        <label>Language Complexity:</label>
+                        <span>{result.audience_fit.analysis.language_complexity}</span>
+                      </div>
+                      <div className="analysis-item">
+                        <label>Cultural Sensitivity:</label>
+                        <span>{result.audience_fit.analysis.cultural_sensitivity}</span>
+                      </div>
+                      <div className="analysis-item">
+                        <label>Engagement Prediction:</label>
+                        <span>{result.audience_fit.analysis.engagement_prediction}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {result.audience_fit.strengths.length > 0 && (
+                    <div className="strengths">
+                      <h4>💪 Strengths</h4>
+                      <ul>
+                        {result.audience_fit.strengths.map((s, i) => (
+                          <li key={i}>{s}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {result.audience_fit.concerns.length > 0 && (
+                    <div className="concerns">
+                      <h4>⚠️ Concerns</h4>
+                      <ul>
+                        {result.audience_fit.concerns.map((c, i) => (
+                          <li key={i}>{c}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {result.audience_fit.recommendations.length > 0 && (
+                    <div className="recommendations">
+                      <h4>📋 Recommendations</h4>
+                      <ul>
+                        {result.audience_fit.recommendations.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'suggestions' && (
+                <div className="suggestions-tab">
+                  <div className="hashtags-section">
+                    <h4>Recommended Hashtags</h4>
+                    <div className="hashtags">
+                      {result.suggestions.hashtags.map((tag, i) => (
+                        <span key={i} className="hashtag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {result.suggestions.posting_time && (
+                    <div className="posting-time">
+                      <h4>Optimal Posting Time</h4>
+                      <p><strong>{result.suggestions.posting_time.optimal}</strong></p>
+                      <small>{result.suggestions.posting_time.reason}</small>
+                    </div>
+                  )}
+
+                  {result.suggestions.image_suggestions && (
+                    <div className="image-suggestions">
+                      <h4>Image Recommendations</h4>
+                      <p><strong>Type:</strong> {result.suggestions.image_suggestions.type}</p>
+                      <p><strong>Recommended:</strong> {result.suggestions.image_suggestions.recommended ? 'Yes' : 'No'}</p>
+                      <small>{result.suggestions.image_suggestions.reason}</small>
+                    </div>
+                  )}
+
+                  {result.suggestions.improvements.length > 0 && (
+                    <div className="improvements">
+                      <h4>💡 Improvement Suggestions</h4>
+                      <ul>
+                        {result.suggestions.improvements.map((imp, i) => (
+                          <li key={i}>{imp}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'rewrites' && result.suggestions?.content_rewrites && (
+                <div className="rewrites-tab">
+                  {result.suggestions.content_rewrites.map((rewrite, i) => (
+                    <div key={i} className="rewrite-card">
+                      <div className="rewrite-header">
+                        <h4>Version {rewrite.version}</h4>
+                        <div className="rewrite-score" style={{ color: getScoreColor(rewrite.score) }}>
+                          Score: {rewrite.score}/10
+                        </div>
+                      </div>
+                      <div className="rewrite-content">
+                        <pre>{rewrite.text}</pre>
+                      </div>
+                      {rewrite.focus && (
+                        <div className="rewrite-focus">
+                          <strong>Focus:</strong> {rewrite.focus}
+                        </div>
+                      )}
+                      <div className="rewrite-changes">
+                        <strong>Changes:</strong>
+                        <ul>
+                          {rewrite.changes.map((change, j) => (
+                            <li key={j}>{change}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <button 
+                        className="copy-btn"
+                        onClick={() => {
+                          navigator.clipboard.writeText(rewrite.text);
+                          alert('Content copied to clipboard!');
+                        }}
+                      >
+                        📋 Copy to Clipboard
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;

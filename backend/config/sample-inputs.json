@@ -1,0 +1,118 @@
+{
+  "sample_input_1": {
+    "campaign_name": "Q1 2026 Product Launch - SaaS Platform",
+    "content": {
+      "text": "Excited to announce our revolutionary new SaaS platform! 🚀 Transform your workflow and boost productivity by 300%. Call me at 555-0123 or email john@company.com to learn more!",
+      "image_url": "https://example.com/product-launch.jpg",
+      "video_url": null,
+      "call_to_action": "Learn More"
+    },
+    "metadata": {
+      "platform": "LinkedIn",
+      "content_type": "post",
+      "campaign_id": "camp_q1_2026_001"
+    },
+    "target_audience": {
+      "age_group": "25-45",
+      "region": "North America",
+      "interests": ["technology", "productivity", "business software", "SaaS"],
+      "industry": "B2B SaaS"
+    },
+    "schedule": {
+      "preferred_time": null,
+      "timezone": "America/New_York"
+    },
+    "options": {
+      "request_rewrites": true,
+      "rewrite_count": 3,
+      "strict_mode": false
+    }
+  },
+  "sample_input_2": {
+    "campaign_name": "Summer Fashion Collection 2026",
+    "content": {
+      "text": "Summer vibes are here! ☀️ Check out our latest collection. Free shipping on all orders! #SummerFashion #Style",
+      "image_url": null,
+      "video_url": null,
+      "call_to_action": "Shop Now"
+    },
+    "metadata": {
+      "platform": "Instagram",
+      "content_type": "post",
+      "campaign_id": "camp_summer_2026"
+    },
+    "target_audience": {
+      "age_group": "18-35",
+      "region": "United States",
+      "interests": ["fashion", "lifestyle", "shopping"],
+      "industry": "E-commerce"
+    },
+    "schedule": {
+      "preferred_time": "2026-06-15T13:00:00Z",
+      "timezone": "America/Los_Angeles"
+    },
+    "options": {
+      "request_rewrites": true,
+      "rewrite_count": 2,
+      "strict_mode": false
+    }
+  },
+  "sample_input_3": {
+    "campaign_name": "Tech Conference Announcement",
+    "content": {
+      "text": "Join us at TechSummit 2026! Leading minds in AI, blockchain, and cloud computing. Register now!",
+      "image_url": "https://example.com/techsummit-banner.jpg",
+      "video_url": null,
+      "call_to_action": "Register Now"
+    },
+    "metadata": {
+      "platform": "Twitter",
+      "content_type": "post",
+      "campaign_id": "camp_techsummit_2026"
+    },
+    "target_audience": {
+      "age_group": "25-50",
+      "region": "Global",
+      "interests": ["technology", "AI", "blockchain", "conferences"],
+      "industry": "Technology"
+    },
+    "schedule": {
+      "preferred_time": null,
+      "timezone": "UTC"
+    },
+    "options": {
+      "request_rewrites": false,
+      "rewrite_count": 0,
+      "strict_mode": true
+    }
+  },
+  "sample_input_4_problematic": {
+    "campaign_name": "Quick Money Scheme - PROBLEMATIC",
+    "content": {
+      "text": "GET RICH QUICK! Make $10,000 in one week guaranteed! My SSN is 123-45-6789. Call 555-1234 now! Click here: http://scam-site.com",
+      "image_url": null,
+      "video_url": null,
+      "call_to_action": "Click Now"
+    },
+    "metadata": {
+      "platform": "LinkedIn",
+      "content_type": "post",
+      "campaign_id": "camp_bad_example"
+    },
+    "target_audience": {
+      "age_group": "18-65",
+      "region": "Global",
+      "interests": ["finance"],
+      "industry": "Finance"
+    },
+    "schedule": {
+      "preferred_time": null,
+      "timezone": "UTC"
+    },
+    "options": {
+      "request_rewrites": true,
+      "rewrite_count": 2,
+      "strict_mode": true
+    }
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "platforms": {
+    "LinkedIn": {
+      "character_limit": 3000,
+      "image_required": false,
+      "cta_recommended": true,
+      "prohibited_words": [
+        "spam",
+        "scam",
+        "get rich quick",
+        "click here",
+        "guaranteed money"
+      ],
+      "hashtag_limits": {
+        "min": 2,
+        "max": 5,
+        "optimal": 3
+      },
+      "best_practices": [
+        "Professional tone",
+        "Data-driven content",
+        "Thought leadership",
+        "Industry insights"
+      ],
+      "content_types": [
+        "post",
+        "article",
+        "poll",
+        "document",
+        "video"
+      ],
+      "optimal_posting_times": {
+        "days": ["Tuesday", "Wednesday", "Thursday"],
+        "hours": "9-11 AM local time",
+        "reason": "Peak professional engagement during work hours"
+      }
+    },
+    "Instagram": {
+      "character_limit": 2200,
+      "image_required": true,
+      "cta_recommended": true,
+      "prohibited_words": [
+        "spam",
+        "scam",
+        "follow back",
+        "like for like"
+      ],
+      "hashtag_limits": {
+        "min": 5,
+        "max": 30,
+        "optimal": 11
+      },
+      "best_practices": [
+        "Visual storytelling",
+        "Authentic content",
+        "Behind-the-scenes",
+        "User-generated content"
+      ],
+      "content_types": [
+        "photo",
+        "carousel",
+        "reel",
+        "story",
+        "igtv"
+      ],
+      "optimal_posting_times": {
+        "days": ["Wednesday", "Thursday", "Friday"],
+        "hours": "11 AM - 1 PM local time",
+        "reason": "Lunch break browsing peak"
+      }
+    },
+    "Twitter": {
+      "character_limit": 280,
+      "image_required": false,
+      "cta_recommended": false,
+      "prohibited_words": [
+        "spam",
+        "scam",
+        "retweet if"
+      ],
+      "hashtag_limits": {
+        "min": 1,
+        "max": 2,
+        "optimal": 2
+      },
+      "best_practices": [
+        "Concise messaging",
+        "Timely content",
+        "Conversational tone",
+        "News and updates"
+      ],
+      "content_types": [
+        "text",
+        "image",
+        "video",
+        "poll",
+        "thread"
+      ],
+      "optimal_posting_times": {
+        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "hours": "9 AM - 3 PM local time",
+        "reason": "Active news consumption hours"
+      }
+    },
+    "Facebook": {
+      "character_limit": 63206,
+      "practical_limit": 500,
+      "image_required": false,
+      "cta_recommended": true,
+      "prohibited_words": [
+        "spam",
+        "scam",
+        "engagement bait",
+        "tag a friend to win"
+      ],
+      "hashtag_limits": {
+        "min": 1,
+        "max": 3,
+        "optimal": 2
+      },
+      "best_practices": [
+        "Community building",
+        "Authentic stories",
+        "Video content",
+        "Local engagement"
+      ],
+      "content_types": [
+        "status",
+        "photo",
+        "video",
+        "live",
+        "story",
+        "event"
+      ],
+      "optimal_posting_times": {
+        "days": ["Wednesday", "Thursday", "Friday"],
+        "hours": "1-3 PM local time",
+        "reason": "Afternoon social browsing peak"
+      }
+    },
+    "TikTok": {
+      "character_limit": 150,
+      "image_required": false,
+      "video_required": true,
+      "cta_recommended": true,
+      "prohibited_words": [
+        "spam",
+        "scam",
+        "follow for follow"
+      ],
+      "hashtag_limits": {
+        "min": 3,
+        "max": 5,
+        "optimal": 4
+      },
+      "best_practices": [
+        "Authentic and entertaining",
+        "Trending sounds",
+        "Short-form video",
+        "Creative effects"
+      ],
+      "content_types": [
+        "video",
+        "duet",
+        "stitch",
+        "live"
+      ],
+      "optimal_posting_times": {
+        "days": ["Tuesday", "Thursday", "Friday"],
+        "hours": "7-9 PM local time",
+        "reason": "Evening entertainment prime time"
+      }
+    }
+  },
+  "default": {
+    "character_limit": 5000,
+    "image_required": false,
+    "cta_recommended": true,
+    "prohibited_words": [
+      "spam",
+      "scam",
+      "click bait"
+    ],
+    "hashtag_limits": {
+      "min": 2,
+      "max": 10,
+      "optimal": 5
+    },
+    "best_practices": [
+      "Clear messaging",
+      "Engaging content",
+      "Appropriate tone"
+    ]
+  },
+  "regulatory_compliance": {
+    "gdpr": {
+      "applicable_regions": ["EU", "EEA"],
+      "requirements": [
+        "Must have consent mechanism for data collection",
+        "Privacy policy must be accessible",
+        "Right to be forgotten must be respected"
+      ]
+    },
+    "ccpa": {
+      "applicable_regions": ["California", "USA"],
+      "requirements": [
+        "Do Not Sell My Info link required if selling data",
+        "Privacy policy must be accessible",
+        "Opt-out mechanism required"
+      ]
+    },
+    "coppa": {
+      "applicable_age": "Under 13",
+      "requirements": [
+        "Parental consent required",
+        "No targeted advertising to children",
+        "No collection of personal information"
+      ]
+    }
+  },
+  "brand_safety": {
+    "avoid_topics": [
+      "Politics (unless brand-relevant)",
+      "Religion",
+      "Controversial social issues",
+      "Adult content",
+      "Violence",
+      "Hate speech"
+    ],
+    "risk_keywords": [
+      "controversial",
+      "polarizing",
+      "offensive",
+      "inappropriate",
+      "explicit"
+    ]
+  }
+}
