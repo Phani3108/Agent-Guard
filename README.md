@@ -70,9 +70,9 @@ Think of it as having a team of expert reviewers—a security specialist, a comp
 
 ### 🎥 Full Demo Video
 
-<div style="max-width: 640px"><div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"><iframe src="https://zetaworld-my.sharepoint.com/personal/yashsa_zeta_tech/_layouts/15/embed.aspx?UniqueId=2fc7f8cb-b4c0-4f54-ba88-c79afbc21282&embed=%7B%22hvm%22%3Atrue%2C%22ust%22%3Atrue%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen title="Screen Recording 2026-02-03 at 10.43.38 PM 1.mov" style="border:none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; max-width: 100%;"></iframe></div></div>
+**[▶️ Watch the Complete Walkthrough](https://zetaworld-my.sharepoint.com/:v:/r/personal/yashsa_zeta_tech/Documents/Microsoft%20Teams%20Chat%20Files/Screen%20Recording%202026-02-03%20at%2010.43.38%E2%80%AFPM%201.mov?csf=1&web=1&e=gAtVO3&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D)**
 
-[Download the video](./media/Demo%20Video.mov)
+*See AgentGuard in action - full platform demo with all features*
 
 Screenshots:
 ![](./media/LinkedIn.png)
