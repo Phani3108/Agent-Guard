@@ -4,6 +4,7 @@
  */
 
 const complianceRules = require('../config/compliance-rules.json');
+const { getChatModel } = require('../config/ai-config');
 
 /**
  * Generate suggestions and rewrites
@@ -68,7 +69,7 @@ Respond in JSON format:
 }`;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: getChatModel(openai),  // Uses Azure deployment or OpenAI model
       messages: [
         { 
           role: 'system', 

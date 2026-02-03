@@ -3,6 +3,8 @@
  * Analyzes if content matches target demographic
  */
 
+const { getChatModel } = require('../config/ai-config');
+
 /**
  * Analyze audience fit
  * @param {Object} content - Content to analyze
@@ -39,7 +41,7 @@ Analyze the following and respond in JSON format:
 }`;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: getChatModel(openai),  // Uses Azure deployment or OpenAI model
       messages: [
         { role: 'system', content: 'You are an expert in audience targeting and content personalization.' },
         { role: 'user', content: prompt },
