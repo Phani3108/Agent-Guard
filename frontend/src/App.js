@@ -344,6 +344,12 @@ function App() {
               >
                 Suggestions
               </button>
+              <button 
+                className={activeTab === 'image' ? 'tab active' : 'tab'} 
+                onClick={() => setActiveTab('image')}
+              >
+                🎨 Suggested Image
+              </button>
               {result.suggestions?.content_rewrites?.length > 0 && (
                 <button 
                   className={activeTab === 'rewrites' ? 'tab active' : 'tab'} 
@@ -589,6 +595,85 @@ function App() {
                           <li key={i}>{imp}</li>
                         ))}
                       </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'image' && (
+                <div className="image-tab">
+                  {result.suggested_image?.success ? (
+                    <>
+                      <div className="image-preview">
+                        <h3>🎨 AI-Generated Image for Your Content</h3>
+                        <div className="image-container">
+                          <img 
+                            src={result.suggested_image.image_url} 
+                            alt="AI-generated content visual" 
+                            style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="image-details">
+                        <h4>📋 Image Details</h4>
+                        <div className="detail-item">
+                          <strong>Model:</strong> {result.suggested_image.model}
+                        </div>
+                        <div className="detail-item">
+                          <strong>Size:</strong> {result.suggested_image.size}
+                        </div>
+                        <div className="detail-item">
+                          <strong>Platform:</strong> {result.suggested_image.platform}
+                        </div>
+                        <div className="detail-item">
+                          <strong>Generated:</strong> {new Date(result.suggested_image.generated_at).toLocaleString()}
+                        </div>
+                      </div>
+
+                      <div className="image-prompt">
+                        <h4>💡 Prompt Used</h4>
+                        <p className="prompt-text">{result.suggested_image.prompt_used}</p>
+                        {result.suggested_image.revised_prompt && result.suggested_image.revised_prompt !== result.suggested_image.prompt_used && (
+                          <>
+                            <h5>✨ AI-Refined Prompt</h5>
+                            <p className="prompt-text revised">{result.suggested_image.revised_prompt}</p>
+                          </>
+                        )}
+                      </div>
+
+                      <div className="image-actions">
+                        <a 
+                          href={result.suggested_image.image_url} 
+                          download="suggested-image.png"
+                          className="download-btn"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          💾 Download Image
+                        </a>
+                        <button 
+                          className="copy-url-btn"
+                          onClick={() => {
+                            navigator.clipboard.writeText(result.suggested_image.image_url);
+                            alert('Image URL copied to clipboard!');
+                          }}
+                        >
+                          🔗 Copy URL
+                        </button>
+                      </div>
+
+                      <div className="alert alert-info">
+                        <p><strong>⚠️ Note:</strong> {result.suggested_image.expiry_note}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="image-error">
+                      <h3>❌ Image Generation Failed</h3>
+                      <p>{result.suggested_image?.error || 'Unknown error occurred'}</p>
+                      {result.suggested_image?.suggestion && (
+                        <p className="suggestion"><strong>Suggestion:</strong> {result.suggested_image.suggestion}</p>
+                      )}
                     </div>
                   )}
                 </div>

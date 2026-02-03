@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
 const logger = require('./logger');
@@ -9,16 +8,16 @@ const { detectPII, redactPII } = require('./agents/pii-detector');
 const { checkCompliance } = require('./agents/compliance-agent');
 const { analyzeAudienceFit } = require('./agents/audience-agent');
 const { generateSuggestions } = require('./agents/creative-agent');
+const { generateContentImage } = require('./agents/image-generator');
+const { getAIClient } = require('./config/ai-config');
 const complianceRules = require('./config/compliance-rules.json');
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Initialize AI Client (supports both OpenAI and Azure OpenAI)
+const openai = getAIClient();
 
 // Middleware to log requests
 app.use((req, res, next) => {
@@ -105,6 +104,25 @@ app.post('/api/review', async (req, res) => {
       openai
     );
 
+    // AGENT 5: Image Generation (VISUAL)
+    logger.info('Running Image Generator Agent (VISUAL)');
+    let suggestedImage;
+    try {
+      suggestedImage = await generateContentImage(
+        content.text,
+        platform,
+        openai
+      );
+      logger.info('Image generation completed', { success: suggestedImage.success });
+    } catch (error) {
+      logger.error('Image generation failed', { error: error.message });
+      suggestedImage = {
+        success: false,
+        error: 'Image generation service failed',
+        details: error.message
+      };
+    }
+
     // Calculate overall score
     const overallScore = calculateOverallScore(
       piiDetection,
@@ -135,6 +153,7 @@ app.post('/api/review', async (req, res) => {
       compliance,
       audience_fit: audienceFit,
       suggestions,
+      suggested_image: suggestedImage,
       audit: {
         campaign_name: campaign_name || 'Unnamed Campaign',
         reviewed_by: 'AgentGuard v1.0',

@@ -4,6 +4,7 @@
  */
 
 const complianceRules = require('../config/compliance-rules.json');
+const { getChatModel } = require('../config/ai-config');
 
 /**
  * Check content compliance
@@ -134,7 +135,7 @@ Respond in JSON format:
 }`;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: getChatModel(openai),  // Uses Azure deployment or OpenAI model
       messages: [
         { role: 'system', content: 'You are a compliance and brand safety expert.' },
         { role: 'user', content: prompt },

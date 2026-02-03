@@ -1,1 +1,113 @@
+# ===========================
+# Environment Variables (CRITICAL - Contains Azure API Keys)
+# ===========================
+.env
+.env.*
+!.env.example
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ===========================
+# Node.js Dependencies
+# ===========================
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+audit.log
+backend/logs/
+backend/audit.log
+backend/*.log
+
+# ===========================
+# Build & Distribution
+# ===========================
+dist/
+build/
+.cache/
+*.tsbuildinfo
+*.js.map
+
+# ===========================
+# Testing
+# ===========================
+coverage/
+.nyc_output/
+*.lcov
+.jest/
+
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ===========================
+# IDEs & Editors
+# ===========================
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# ===========================
+# Credentials & Secrets
+# ===========================
+*.pem
+*.key
+*.cert
+*.p12
+secrets/
+credentials/
+config/secrets.json
+
+# ===========================
+# Temporary Files
+# ===========================
+tmp/
+temp/
+*.tmp
+*.temp
+.cache
+
+# ===========================
+# Azure & Deployment
+# ===========================
+.azure/
+.deployment
+deploy.sh
+
+# ===========================
+# Miscellaneous
+# ===========================
+*.bak
+*.swp
+.env.backup
