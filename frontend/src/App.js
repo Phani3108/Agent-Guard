@@ -36,7 +36,8 @@ function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedPlatform, setSelectedPlatform] = useState('LinkedIn');
+  const [expandedSection, setExpandedSection] = useState(null);
 
   const handleInputChange = (section, field, value) => {
     setFormData(prev => ({
@@ -87,7 +88,7 @@ function App() {
 
       if (response.ok) {
         setResult(data);
-        setActiveTab('overview');
+        setSelectedPlatform(formData.metadata.platform);
       } else {
         setError(data.error || 'Review failed');
       }
@@ -113,6 +114,184 @@ function App() {
       'reject': { text: '✗ Rejected', color: '#dc2626' }
     };
     return badges[recommendation] || badges['review_required'];
+  };
+
+  const toggleSection = (section) => {
+    setExpandedSection(expandedSection === section ? null : section);
+  };
+
+  // Get the best rewrite or use original
+  const getAfterContent = () => {
+    if (!result) return formData.content.text;
+    
+    if (result.suggestions?.content_rewrites?.length > 0) {
+      // Use the highest scored rewrite
+      const bestRewrite = result.suggestions.content_rewrites.reduce((best, current) => 
+        current.score > best.score ? current : best
+      );
+      return bestRewrite.text;
+    }
+    
+    // If PII was detected, use redacted content
+    if (result.pii_detection?.detected && result.pii_detection?.redacted_content) {
+      return result.pii_detection.redacted_content;
+    }
+    
+    return formData.content.text;
+  };
+
+  const getAfterImage = () => {
+    if (!result) return formData.content.image_url;
+    
+    // Use AI-generated image if available and successful
+    if (result.suggested_image?.success && result.suggested_image?.image_url) {
+      return result.suggested_image.image_url;
+    }
+    
+    return formData.content.image_url;
+  };
+
+  const getHashtags = () => {
+    if (!result?.suggestions?.hashtags) return [];
+    return result.suggestions.hashtags;
+  };
+
+  // Platform-specific preview components
+  const LinkedInPreview = ({ content, image, hashtags, isAfter }) => (
+    <div className="linkedin-preview">
+      <div className="linkedin-header">
+        <div className="linkedin-avatar">🏢</div>
+        <div className="linkedin-user-info">
+          <div className="linkedin-name">Your Company</div>
+          <div className="linkedin-meta">1,234 followers • 1h • 🌐</div>
+        </div>
+        <button className="linkedin-follow-btn">+ Follow</button>
+      </div>
+      <div className="linkedin-content">
+        {content}
+        {isAfter && hashtags.length > 0 && (
+          <div className="linkedin-hashtags">
+            {hashtags.map((tag, i) => (
+              <span key={i} className="linkedin-hashtag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+      {image && (
+        <div className="linkedin-image">
+          <img src={image} alt="Post content" />
+        </div>
+      )}
+      <div className="linkedin-engagement">
+        <div className="linkedin-reactions">
+          <div className="linkedin-reaction-icons">
+            <span className="reaction-icon like">👍</span>
+            <span className="reaction-icon love">❤️</span>
+            <span className="reaction-icon insightful">💡</span>
+          </div>
+          <span className="reaction-count">47</span>
+        </div>
+        <div className="linkedin-counts">
+          <span>12 comments • 8 reposts</span>
+        </div>
+      </div>
+      <div className="linkedin-actions">
+        <button>👍 Like</button>
+        <button>💬 Comment</button>
+        <button>🔄 Repost</button>
+        <button>📤 Send</button>
+      </div>
+    </div>
+  );
+
+  const InstagramPreview = ({ content, image, hashtags, isAfter }) => (
+    <div className="instagram-preview">
+      <div className="instagram-header">
+        <div className="instagram-avatar">📷</div>
+        <div className="instagram-username">your_brand</div>
+        <button className="instagram-more">•••</button>
+      </div>
+      {image && (
+        <div className="instagram-image">
+          <img src={image} alt="Post content" />
+        </div>
+      )}
+      <div className="instagram-actions">
+        <div className="instagram-action-left">
+          <button>❤️</button>
+          <button>💬</button>
+          <button>📤</button>
+        </div>
+        <button>🔖</button>
+      </div>
+      <div className="instagram-likes">1,234 likes</div>
+      <div className="instagram-caption">
+        <span className="instagram-username-bold">your_brand</span> {content}
+        {isAfter && hashtags.length > 0 && (
+          <div className="instagram-hashtags">
+            {hashtags.map((tag, i) => (
+              <span key={i} className="instagram-hashtag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="instagram-time">2 HOURS AGO</div>
+    </div>
+  );
+
+  const EmailPreview = ({ content, image, isAfter }) => (
+    <div className="email-preview">
+      <div className="email-header">
+        <div className="email-field">
+          <span className="email-label">From:</span>
+          <span className="email-value">marketing@yourcompany.com</span>
+        </div>
+        <div className="email-field">
+          <span className="email-label">To:</span>
+          <span className="email-value">customer@example.com</span>
+        </div>
+        <div className="email-field">
+          <span className="email-label">Subject:</span>
+          <span className="email-value">{formData.campaign_name || 'Marketing Campaign'}</span>
+        </div>
+      </div>
+      <div className="email-body">
+        {image && (
+          <div className="email-image">
+            <img src={image} alt="Email content" />
+          </div>
+        )}
+        <div className="email-content">
+          <p>{content}</p>
+        </div>
+        {formData.content.call_to_action && (
+          <div className="email-cta">
+            <button className="email-cta-button">{formData.content.call_to_action}</button>
+          </div>
+        )}
+        <div className="email-footer">
+          <p>© 2026 Your Company. All rights reserved.</p>
+          <a href="#">Unsubscribe</a>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPlatformPreview = (isAfter = false) => {
+    const content = isAfter ? getAfterContent() : formData.content.text;
+    const image = isAfter ? getAfterImage() : formData.content.image_url;
+    const hashtags = isAfter ? getHashtags() : [];
+
+    switch (selectedPlatform) {
+      case 'LinkedIn':
+        return <LinkedInPreview content={content} image={image} hashtags={hashtags} isAfter={isAfter} />;
+      case 'Instagram':
+        return <InstagramPreview content={content} image={image} hashtags={hashtags} isAfter={isAfter} />;
+      case 'Email':
+        return <EmailPreview content={content} image={image} isAfter={isAfter} />;
+      default:
+        return <LinkedInPreview content={content} image={image} hashtags={hashtags} isAfter={isAfter} />;
+    }
   };
 
   return (
@@ -161,9 +340,7 @@ function App() {
               >
                 <option value="LinkedIn">LinkedIn</option>
                 <option value="Instagram">Instagram</option>
-                <option value="Twitter">Twitter/X</option>
-                <option value="Facebook">Facebook</option>
-                <option value="TikTok">TikTok</option>
+                <option value="Email">Email</option>
               </select>
             </div>
 
@@ -294,13 +471,14 @@ function App() {
         {result && (
           <div className="results-section">
             <div className="results-header">
-              <h2>Review Results</h2>
+              <h2>Campaign Preview</h2>
               <div className="review-meta">
                 <span>Review ID: {result.review_id}</span>
                 <span>Processed in: {result.audit.processing_time_ms}ms</span>
               </div>
             </div>
 
+            {/* Score and Recommendation */}
             <div className="score-card">
               <div className="score-main" style={{ borderColor: getScoreColor(result.overall_score) }}>
                 <div className="score-value" style={{ color: getScoreColor(result.overall_score) }}>
@@ -313,116 +491,93 @@ function App() {
               </div>
             </div>
 
-            <div className="tabs">
+            {/* Platform Selector */}
+            <div className="platform-selector">
               <button 
-                className={activeTab === 'overview' ? 'tab active' : 'tab'} 
-                onClick={() => setActiveTab('overview')}
+                className={selectedPlatform === 'LinkedIn' ? 'platform-btn active' : 'platform-btn'}
+                onClick={() => setSelectedPlatform('LinkedIn')}
               >
-                Overview
+                💼 LinkedIn
               </button>
               <button 
-                className={activeTab === 'pii' ? 'tab active' : 'tab'} 
-                onClick={() => setActiveTab('pii')}
+                className={selectedPlatform === 'Instagram' ? 'platform-btn active' : 'platform-btn'}
+                onClick={() => setSelectedPlatform('Instagram')}
               >
-                PII Detection
+                📸 Instagram
               </button>
               <button 
-                className={activeTab === 'compliance' ? 'tab active' : 'tab'} 
-                onClick={() => setActiveTab('compliance')}
+                className={selectedPlatform === 'Email' ? 'platform-btn active' : 'platform-btn'}
+                onClick={() => setSelectedPlatform('Email')}
               >
-                Compliance
+                📧 Email
               </button>
-              <button 
-                className={activeTab === 'audience' ? 'tab active' : 'tab'} 
-                onClick={() => setActiveTab('audience')}
-              >
-                Audience Fit
-              </button>
-              <button 
-                className={activeTab === 'suggestions' ? 'tab active' : 'tab'} 
-                onClick={() => setActiveTab('suggestions')}
-              >
-                Suggestions
-              </button>
-              <button 
-                className={activeTab === 'image' ? 'tab active' : 'tab'} 
-                onClick={() => setActiveTab('image')}
-              >
-                🎨 Suggested Image
-              </button>
-              {result.suggestions?.content_rewrites?.length > 0 && (
-                <button 
-                  className={activeTab === 'rewrites' ? 'tab active' : 'tab'} 
-                  onClick={() => setActiveTab('rewrites')}
-                >
-                  Rewrites ({result.suggestions.content_rewrites.length})
-                </button>
-              )}
             </div>
 
-            <div className="tab-content">
-              {activeTab === 'overview' && (
-                <div className="overview-tab">
-                  <div className="stat-grid">
-                    <div className="stat-card">
-                      <div className="stat-label">PII Detection</div>
-                      <div className={`stat-value ${result.pii_detection.detected ? 'warning' : 'success'}`}>
-                        {result.pii_detection.detected ? `${result.pii_detection.items.length} found` : 'None'}
-                      </div>
-                    </div>
-                    <div className="stat-card">
-                      <div className="stat-label">Compliance Score</div>
-                      <div className="stat-value" style={{ color: getScoreColor(result.compliance.score) }}>
-                        {result.compliance.score}/10
-                      </div>
-                    </div>
-                    <div className="stat-card">
-                      <div className="stat-label">Audience Fit</div>
-                      <div className="stat-value" style={{ color: getScoreColor(result.audience_fit.score) }}>
-                        {result.audience_fit.score}/10
-                      </div>
-                    </div>
-                    <div className="stat-card">
-                      <div className="stat-label">Violations</div>
-                      <div className={`stat-value ${result.compliance.violations.length > 0 ? 'error' : 'success'}`}>
-                        {result.compliance.violations.length}
-                      </div>
-                    </div>
-                  </div>
-
-                  {result.compliance.violations.length > 0 && (
-                    <div className="alert alert-error">
-                      <h4>⚠️ Critical Issues</h4>
-                      <ul>
-                        {result.compliance.violations.map((v, i) => (
-                          <li key={i}>{v.message}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {result.compliance.warnings.length > 0 && (
-                    <div className="alert alert-warning">
-                      <h4>⚡ Warnings</h4>
-                      <ul>
-                        {result.compliance.warnings.map((w, i) => (
-                          <li key={i}>{w.message}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+            {/* BEFORE and AFTER Preview */}
+            <div className="preview-container">
+              <div className="preview-column">
+                <h3 className="preview-title before">BEFORE</h3>
+                <div className="preview-box">
+                  {renderPlatformPreview(false)}
                 </div>
-              )}
+              </div>
 
-              {activeTab === 'pii' && (
-                <div className="pii-tab">
-                  {result.pii_detection.detected ? (
-                    <>
-                      <div className="alert alert-error">
-                        <h4>🚨 PII Detected</h4>
-                        <p>Sensitive information found in content. Review and remove before posting.</p>
-                      </div>
-                      
+              <div className="preview-divider">
+                <div className="arrow-icon">→</div>
+              </div>
+
+              <div className="preview-column">
+                <h3 className="preview-title after">AFTER</h3>
+                <div className="preview-box">
+                  {renderPlatformPreview(true)}
+                </div>
+              </div>
+            </div>
+
+            {/* Collapsible Details Sections */}
+            <div className="details-sections">
+              <h3 className="details-header">Review Details</h3>
+
+              {/* Quick Stats */}
+              <div className="stat-grid">
+                <div className="stat-card">
+                  <div className="stat-label">PII Detection</div>
+                  <div className={`stat-value ${result.pii_detection.detected ? 'warning' : 'success'}`}>
+                    {result.pii_detection.detected ? `${result.pii_detection.items.length} found` : 'None'}
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Compliance Score</div>
+                  <div className="stat-value" style={{ color: getScoreColor(result.compliance.score) }}>
+                    {result.compliance.score}/10
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Audience Fit</div>
+                  <div className="stat-value" style={{ color: getScoreColor(result.audience_fit.score) }}>
+                    {result.audience_fit.score}/10
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">Violations</div>
+                  <div className={`stat-value ${result.compliance.violations.length > 0 ? 'error' : 'success'}`}>
+                    {result.compliance.violations.length}
+                  </div>
+                </div>
+              </div>
+
+              {/* PII Detection Section */}
+              {result.pii_detection.detected && (
+                <div className="collapsible-section">
+                  <button 
+                    className="collapsible-header"
+                    onClick={() => toggleSection('pii')}
+                  >
+                    <span>🚨 PII Detection - {result.pii_detection.items.length} Issues Found</span>
+                    <span className="toggle-icon">{expandedSection === 'pii' ? '▼' : '▶'}</span>
+                  </button>
+                  {expandedSection === 'pii' && (
+                    <div className="collapsible-content">
                       <div className="pii-items">
                         {result.pii_detection.items.map((item, i) => (
                           <div key={i} className={`pii-item severity-${item.severity}`}>
@@ -432,199 +587,237 @@ function App() {
                           </div>
                         ))}
                       </div>
-
-                      <div className="redacted-content">
-                        <h4>Redacted Content:</h4>
-                        <pre>{result.pii_detection.redacted_content}</pre>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="alert alert-success">
-                      <h4>✅ No PII Detected</h4>
-                      <p>No personally identifiable information found in the content.</p>
                     </div>
                   )}
                 </div>
               )}
 
-              {activeTab === 'compliance' && (
-                <div className="compliance-tab">
-                  <div className="compliance-score">
-                    <h3>Compliance Score: {result.compliance.score}/10</h3>
-                    <p className="compliance-status">Status: {result.compliance.status}</p>
-                  </div>
+              {/* Compliance Section */}
+              <div className="collapsible-section">
+                <button 
+                  className="collapsible-header"
+                  onClick={() => toggleSection('compliance')}
+                >
+                  <span>⚖️ Compliance Analysis - Score: {result.compliance.score}/10</span>
+                  <span className="toggle-icon">{expandedSection === 'compliance' ? '▼' : '▶'}</span>
+                </button>
+                {expandedSection === 'compliance' && (
+                  <div className="collapsible-content">
+                    {result.compliance.ai_assessment && (
+                      <div className="ai-assessment">
+                        <h4>AI Assessment</h4>
+                        <p>{result.compliance.ai_assessment}</p>
+                      </div>
+                    )}
 
-                  {result.compliance.ai_assessment && (
-                    <div className="ai-assessment">
-                      <h4>AI Assessment</h4>
-                      <p>{result.compliance.ai_assessment}</p>
-                    </div>
-                  )}
-
-                  {result.compliance.passed_checks.length > 0 && (
-                    <div className="passed-checks">
-                      <h4>✅ Passed Checks</h4>
-                      <div className="check-tags">
-                        {result.compliance.passed_checks.map((check, i) => (
-                          <span key={i} className="check-tag success">{check}</span>
+                    {result.compliance.violations.length > 0 && (
+                      <div className="violations">
+                        <h4>❌ Violations</h4>
+                        {result.compliance.violations.map((v, i) => (
+                          <div key={i} className={`violation-item severity-${v.severity}`}>
+                            <strong>{v.rule}:</strong> {v.message}
+                          </div>
                         ))}
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {result.compliance.violations.length > 0 && (
-                    <div className="violations">
-                      <h4>❌ Violations</h4>
-                      {result.compliance.violations.map((v, i) => (
-                        <div key={i} className={`violation-item severity-${v.severity}`}>
-                          <strong>{v.rule}:</strong> {v.message}
+                    {result.compliance.warnings.length > 0 && (
+                      <div className="warnings">
+                        <h4>⚠️ Warnings</h4>
+                        {result.compliance.warnings.map((w, i) => (
+                          <div key={i} className="warning-item">
+                            <strong>{w.rule}:</strong> {w.message}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {result.compliance.passed_checks.length > 0 && (
+                      <div className="passed-checks">
+                        <h4>✅ Passed Checks</h4>
+                        <div className="check-tags">
+                          {result.compliance.passed_checks.map((check, i) => (
+                            <span key={i} className="check-tag success">{check}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Audience Fit Section */}
+              <div className="collapsible-section">
+                <button 
+                  className="collapsible-header"
+                  onClick={() => toggleSection('audience')}
+                >
+                  <span>🎯 Audience Fit Analysis - Score: {result.audience_fit.score}/10</span>
+                  <span className="toggle-icon">{expandedSection === 'audience' ? '▼' : '▶'}</span>
+                </button>
+                {expandedSection === 'audience' && (
+                  <div className="collapsible-content">
+                    <div className="audience-analysis">
+                      <h4>Analysis</h4>
+                      <div className="analysis-grid">
+                        <div className="analysis-item">
+                          <label>Tone:</label>
+                          <span>{result.audience_fit.analysis.tone}</span>
+                        </div>
+                        <div className="analysis-item">
+                          <label>Language Complexity:</label>
+                          <span>{result.audience_fit.analysis.language_complexity}</span>
+                        </div>
+                        <div className="analysis-item">
+                          <label>Cultural Sensitivity:</label>
+                          <span>{result.audience_fit.analysis.cultural_sensitivity}</span>
+                        </div>
+                        <div className="analysis-item">
+                          <label>Engagement Prediction:</label>
+                          <span>{result.audience_fit.analysis.engagement_prediction}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {result.audience_fit.strengths.length > 0 && (
+                      <div className="strengths">
+                        <h4>💪 Strengths</h4>
+                        <ul>
+                          {result.audience_fit.strengths.map((s, i) => (
+                            <li key={i}>{s}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {result.audience_fit.concerns.length > 0 && (
+                      <div className="concerns">
+                        <h4>⚠️ Concerns</h4>
+                        <ul>
+                          {result.audience_fit.concerns.map((c, i) => (
+                            <li key={i}>{c}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {result.audience_fit.recommendations.length > 0 && (
+                      <div className="recommendations">
+                        <h4>📋 Recommendations</h4>
+                        <ul>
+                          {result.audience_fit.recommendations.map((r, i) => (
+                            <li key={i}>{r}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Content Suggestions Section */}
+              <div className="collapsible-section">
+                <button 
+                  className="collapsible-header"
+                  onClick={() => toggleSection('suggestions')}
+                >
+                  <span>💡 Content Suggestions & Improvements</span>
+                  <span className="toggle-icon">{expandedSection === 'suggestions' ? '▼' : '▶'}</span>
+                </button>
+                {expandedSection === 'suggestions' && (
+                  <div className="collapsible-content">
+                    {result.suggestions.posting_time && (
+                      <div className="posting-time">
+                        <h4>⏰ Optimal Posting Time</h4>
+                        <p><strong>{result.suggestions.posting_time.optimal}</strong></p>
+                        <small>{result.suggestions.posting_time.reason}</small>
+                      </div>
+                    )}
+
+                    {result.suggestions.improvements.length > 0 && (
+                      <div className="improvements">
+                        <h4>✨ Improvement Suggestions</h4>
+                        <ul>
+                          {result.suggestions.improvements.map((imp, i) => (
+                            <li key={i}>{imp}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Content Rewrites Section */}
+              {result.suggestions?.content_rewrites?.length > 0 && (
+                <div className="collapsible-section">
+                  <button 
+                    className="collapsible-header"
+                    onClick={() => toggleSection('rewrites')}
+                  >
+                    <span>📝 Alternative Content Versions ({result.suggestions.content_rewrites.length})</span>
+                    <span className="toggle-icon">{expandedSection === 'rewrites' ? '▼' : '▶'}</span>
+                  </button>
+                  {expandedSection === 'rewrites' && (
+                    <div className="collapsible-content">
+                      {result.suggestions.content_rewrites.map((rewrite, i) => (
+                        <div key={i} className="rewrite-card">
+                          <div className="rewrite-header">
+                            <h4>Version {rewrite.version}</h4>
+                            <div className="rewrite-score" style={{ color: getScoreColor(rewrite.score) }}>
+                              Score: {rewrite.score}/10
+                            </div>
+                          </div>
+                          <div className="rewrite-content">
+                            <pre>{rewrite.text}</pre>
+                          </div>
+                          {rewrite.focus && (
+                            <div className="rewrite-focus">
+                              <strong>Focus:</strong> {rewrite.focus}
+                            </div>
+                          )}
+                          <div className="rewrite-changes">
+                            <strong>Changes:</strong>
+                            <ul>
+                              {rewrite.changes.map((change, j) => (
+                                <li key={j}>{change}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <button 
+                            className="copy-btn"
+                            onClick={() => {
+                              navigator.clipboard.writeText(rewrite.text);
+                              alert('Content copied to clipboard!');
+                            }}
+                          >
+                            📋 Copy to Clipboard
+                          </button>
                         </div>
                       ))}
                     </div>
                   )}
-
-                  {result.compliance.warnings.length > 0 && (
-                    <div className="warnings">
-                      <h4>⚠️ Warnings</h4>
-                      {result.compliance.warnings.map((w, i) => (
-                        <div key={i} className="warning-item">
-                          <strong>{w.rule}:</strong> {w.message}
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
               )}
 
-              {activeTab === 'audience' && (
-                <div className="audience-tab">
-                  <div className="audience-score">
-                    <h3>Audience Fit Score: {result.audience_fit.score}/10</h3>
-                  </div>
-
-                  <div className="audience-analysis">
-                    <h4>Analysis</h4>
-                    <div className="analysis-grid">
-                      <div className="analysis-item">
-                        <label>Tone:</label>
-                        <span>{result.audience_fit.analysis.tone}</span>
-                      </div>
-                      <div className="analysis-item">
-                        <label>Language Complexity:</label>
-                        <span>{result.audience_fit.analysis.language_complexity}</span>
-                      </div>
-                      <div className="analysis-item">
-                        <label>Cultural Sensitivity:</label>
-                        <span>{result.audience_fit.analysis.cultural_sensitivity}</span>
-                      </div>
-                      <div className="analysis-item">
-                        <label>Engagement Prediction:</label>
-                        <span>{result.audience_fit.analysis.engagement_prediction}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {result.audience_fit.strengths.length > 0 && (
-                    <div className="strengths">
-                      <h4>💪 Strengths</h4>
-                      <ul>
-                        {result.audience_fit.strengths.map((s, i) => (
-                          <li key={i}>{s}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {result.audience_fit.concerns.length > 0 && (
-                    <div className="concerns">
-                      <h4>⚠️ Concerns</h4>
-                      <ul>
-                        {result.audience_fit.concerns.map((c, i) => (
-                          <li key={i}>{c}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {result.audience_fit.recommendations.length > 0 && (
-                    <div className="recommendations">
-                      <h4>📋 Recommendations</h4>
-                      <ul>
-                        {result.audience_fit.recommendations.map((r, i) => (
-                          <li key={i}>{r}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {activeTab === 'suggestions' && (
-                <div className="suggestions-tab">
-                  <div className="hashtags-section">
-                    <h4>Recommended Hashtags</h4>
-                    <div className="hashtags">
-                      {result.suggestions.hashtags.map((tag, i) => (
-                        <span key={i} className="hashtag">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {result.suggestions.posting_time && (
-                    <div className="posting-time">
-                      <h4>Optimal Posting Time</h4>
-                      <p><strong>{result.suggestions.posting_time.optimal}</strong></p>
-                      <small>{result.suggestions.posting_time.reason}</small>
-                    </div>
-                  )}
-
-                  {result.suggestions.image_suggestions && (
-                    <div className="image-suggestions">
-                      <h4>Image Recommendations</h4>
-                      <p><strong>Type:</strong> {result.suggestions.image_suggestions.type}</p>
-                      <p><strong>Recommended:</strong> {result.suggestions.image_suggestions.recommended ? 'Yes' : 'No'}</p>
-                      <small>{result.suggestions.image_suggestions.reason}</small>
-                    </div>
-                  )}
-
-                  {result.suggestions.improvements.length > 0 && (
-                    <div className="improvements">
-                      <h4>💡 Improvement Suggestions</h4>
-                      <ul>
-                        {result.suggestions.improvements.map((imp, i) => (
-                          <li key={i}>{imp}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {activeTab === 'image' && (
-                <div className="image-tab">
-                  {result.suggested_image?.success ? (
-                    <>
-                      <div className="image-preview">
-                        <h3>🎨 AI-Generated Image for Your Content</h3>
-                        <div className="image-container">
-                          <img 
-                            src={result.suggested_image.image_url} 
-                            alt="AI-generated content visual" 
-                            style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}
-                          />
-                        </div>
-                      </div>
-
+              {/* AI-Generated Image Section */}
+              {result.suggested_image?.success && (
+                <div className="collapsible-section">
+                  <button 
+                    className="collapsible-header"
+                    onClick={() => toggleSection('image')}
+                  >
+                    <span>🎨 AI-Generated Image Details</span>
+                    <span className="toggle-icon">{expandedSection === 'image' ? '▼' : '▶'}</span>
+                  </button>
+                  {expandedSection === 'image' && (
+                    <div className="collapsible-content">
                       <div className="image-details">
-                        <h4>📋 Image Details</h4>
                         <div className="detail-item">
                           <strong>Model:</strong> {result.suggested_image.model}
                         </div>
                         <div className="detail-item">
                           <strong>Size:</strong> {result.suggested_image.size}
-                        </div>
-                        <div className="detail-item">
-                          <strong>Platform:</strong> {result.suggested_image.platform}
                         </div>
                         <div className="detail-item">
                           <strong>Generated:</strong> {new Date(result.suggested_image.generated_at).toLocaleString()}
@@ -662,60 +855,8 @@ function App() {
                           🔗 Copy URL
                         </button>
                       </div>
-
-                      <div className="alert alert-info">
-                        <p><strong>⚠️ Note:</strong> {result.suggested_image.expiry_note}</p>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="image-error">
-                      <h3>❌ Image Generation Failed</h3>
-                      <p>{result.suggested_image?.error || 'Unknown error occurred'}</p>
-                      {result.suggested_image?.suggestion && (
-                        <p className="suggestion"><strong>Suggestion:</strong> {result.suggested_image.suggestion}</p>
-                      )}
                     </div>
                   )}
-                </div>
-              )}
-
-              {activeTab === 'rewrites' && result.suggestions?.content_rewrites && (
-                <div className="rewrites-tab">
-                  {result.suggestions.content_rewrites.map((rewrite, i) => (
-                    <div key={i} className="rewrite-card">
-                      <div className="rewrite-header">
-                        <h4>Version {rewrite.version}</h4>
-                        <div className="rewrite-score" style={{ color: getScoreColor(rewrite.score) }}>
-                          Score: {rewrite.score}/10
-                        </div>
-                      </div>
-                      <div className="rewrite-content">
-                        <pre>{rewrite.text}</pre>
-                      </div>
-                      {rewrite.focus && (
-                        <div className="rewrite-focus">
-                          <strong>Focus:</strong> {rewrite.focus}
-                        </div>
-                      )}
-                      <div className="rewrite-changes">
-                        <strong>Changes:</strong>
-                        <ul>
-                          {rewrite.changes.map((change, j) => (
-                            <li key={j}>{change}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <button 
-                        className="copy-btn"
-                        onClick={() => {
-                          navigator.clipboard.writeText(rewrite.text);
-                          alert('Content copied to clipboard!');
-                        }}
-                      >
-                        📋 Copy to Clipboard
-                      </button>
-                    </div>
-                  ))}
                 </div>
               )}
             </div>

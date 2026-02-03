@@ -11,10 +11,11 @@ const PII_PATTERNS = {
   },
   phone: {
     // Enhanced to detect various formats:
-    // - US: (555) 123-4567, 555-123-4567, 555.123.4567, 5551234567
+    // - US: (555) 123-4567, 555-123-4567, 555.123.4567, 5551234567, 555-0123
     // - International: +1-555-123-4567, +91 98765 43210, +44 20 7946 0958
     // - Mobile: 9876543210 (10 digits), +919876543210
-    regex: /(\+?\d{1,4}[-.\s]?)?(\(?\d{2,4}\)?[-.\s]?){1,3}\d{3,4}[-.\s]?\d{3,4}\b/g,
+    // - Short format: 555-0123, 123-4567
+    regex: /(?:\+?\d{1,4}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}\b|\b\d{3}[-.\s]\d{4}\b/g,
     severity: 'high',
     description: 'Phone/Mobile number detected',
   },
